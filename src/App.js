@@ -124,7 +124,16 @@ const App = () => {
               path="/scamform"
               element={<ContactForm user={user} scamTypes={scamTypes} />}
             />
-            <Route path="/scamcard" element={<Card scamTypes={scamTypes} />} />
+            <Route
+              path="/scamcard"
+              element={
+                <Card
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
+                  markers={markers}
+                />
+              }
+            />
           </Routes>
 
           {location.pathname === "/" && (

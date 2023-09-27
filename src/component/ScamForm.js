@@ -24,7 +24,6 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
         const selectedDatetime = `${e.target.date.value}T${e.target.time.value}:00`;
 
         const formData = {
-          fraudType: e.target.fraud_type.value,
           comments: [
             {
               text: e.target.comments.value,
@@ -34,7 +33,11 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
           dateTime: selectedDatetime,
           position: { lat, lng },
           userId: user.userId,
-          scamTypeId: "65142125e2a40efa93086532",
+          scamTypeId: e.target.fraud_type.value,
+          isThereRating: {
+            all: 1,
+            confirmed: 1,
+          },
         };
         console.log("formData", formData);
         const response = await axios.post(

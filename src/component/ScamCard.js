@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { getAddressFromCoordinates } from "../utils/getCountry";
 
 const dateOptions = {
@@ -12,7 +13,8 @@ const dateOptions = {
   timeZoneName: "short",
 };
 
-const Card = ({ scamTypes }) => {
+const Card = ({ scamTypes, markers, setMarkers }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const marker = location.state?.marker;
   const date = new Date(marker.dateTime);
@@ -39,13 +41,35 @@ const Card = ({ scamTypes }) => {
   }, [marker]);
 
   // Click event handler for the "Still There" button
-  const handleStillThereClick = () => {
+  const handleStillThereClick = async () => {
     console.log("User clicked 'Still There' button");
+    const res = await axios.put(
+      `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
+      {
+        isConfirmed: 1,
+      }
+    );
+    console.log("res", res);
   };
 
   // Click event handler for the "I Don't See Scammers" button
-  const handleDontSeeScammersClick = () => {
+  const handleDontSeeScammersClick = async () => {
     console.log("User clicked 'I Don't See Scammers' button");
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
+        {
+          isConfirmed: 0,
+        }
+      );
+      console.log("res", res);
+    } catch (error) {
+      if (error.request.status === 404) {
+        const updatedMarkers = markers.filter((m) => m._id !== marker._id);
+        setMarkers(updatedMarkers);
+        navigate("/");
+      }
+    }
   };
 
   return (
