@@ -82,25 +82,27 @@ const App = () => {
         <button onClick={clearMarkers}>Clear</button>
       </div>
       {isLoaded ? (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Map
-                center={center}
-                mode={mode}
-                markers={markers}
-                onMarkerAdd={onMarkerAdd}
-              />
-            }
-          />
-          <Route path="/report-scam" element={<ContactForm />} />
-        </Routes>
+        <>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Map
+                  center={center}
+                  mode={mode}
+                  markers={markers}
+                  onMarkerAdd={onMarkerAdd}
+                />
+              }
+            />
+            <Route path="/report-scam" element={<ContactForm />} />
+          </Routes>
+          <ContactForm />
+          <SignUpForm />
+        </>
       ) : (
         <h2>Loading...</h2>
       )}
-      <ContactForm />
-      <SignUpForm />
     </div>
   );
 };
