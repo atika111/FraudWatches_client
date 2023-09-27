@@ -2,79 +2,69 @@ import React from 'react';
 
 const ContactForm = () => {
   return (
-    <div className="contact-form">
-      <h1>Contact Form</h1>
+    <div className='contact-form'>
+
       <section>
-        <form action="https://formspree.io/f/mzbqqowg" method="POST">
+        <form method='POST'>
           <fieldset>
             <legend>
-              <strong>Fill out the form below to contact me</strong>
+              <strong>Fill out the form below to report a fraud</strong>
             </legend>
 
-            <label htmlFor="firstName">
-              <strong>Your first name</strong>
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              className="form-input"
-            />
 
-            <label htmlFor="lastName">
-              <strong>Your last name</strong>
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              placeholder="(optional)"
-              className="form-input"
-            />
 
-            <label htmlFor="email">
-              <strong>Email address</strong>
+            <label htmlFor='fraud_type'>
+              <strong>Fraud Type:</strong>
             </label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              className="form-input"
-            />
-
-            <label htmlFor="reason">
-              <strong>Reason for contacting me:</strong>
-            </label>
-            <select id="reason" name="reason" className="form-input">
+            <select id='fraud_type' name='fraud_type' className='form-input'>
               <option selected>Select one...</option>
-              <option value="job">Job offer</option>
-              <option value="collab">Collaboration on a project</option>
-              <option value="fly">I want to fly with you to see cool cities</option>
-              <option value="other">Other</option>
+              <option value='Pickpocketing'>Pickpocketing</option>
+              <option value='Advance Fee Fraud'>Advance Fee Fraud</option>
+              <option value='Door-to-Door Scam'>Door-to-Door Scam</option>
+              <option value='Fake Charity Scam'>Fake Charity Scam</option>
+              <option value='Street Performer Scam'>I want to fly with you to see cool cities</option>
+              <option value='other'>Other</option>
             </select>
 
-            <label htmlFor="comments">
+
+            <label htmlFor='comments'>
               <strong>Tell me more about it:</strong>
             </label>
             <textarea
-              id="comments"
-              maxLength="250"
-              name="comments"
-              className="form-textarea"
+              id='comments'
+              maxLength='250'
+              name='comments'
+              className='form-textarea'
             ></textarea>
             <p></p>
 
+            <label htmlFor="date">
+              <strong>Select a Date</strong>
+            </label>
             <input
-              id="send_to"
-              type="hidden"
-              name="send_to"
-              value="xkellinx@gmail.com"
+              type="date"
+              id="date"
+              name="date"
+              className="form-input"
             />
+
+            <label htmlFor="time">
+              <strong>Select a Time</strong>
+            </label>
+            <input
+              type="time"
+              id="time"
+              name="time"
+              className="form-input"
+            />
+
+            <button>click on me!</button>
+
             <button
               disabled
-              className="subButton"
-              type="submit"
-              value="Send"
+              className='subButton'
+              type='submit'
+              value='Send'
             >
               <strong>Submit</strong>
             </button>
