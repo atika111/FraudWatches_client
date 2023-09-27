@@ -113,7 +113,6 @@ const App = () => {
             markers={markers}
             onMarkerAdd={onMarkerAdd}
           />
-          <NavBar />
           <ContactForm user={user} />
           <LoginForm setUser={setUser} />
         </>
