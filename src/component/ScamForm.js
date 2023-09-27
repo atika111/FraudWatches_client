@@ -24,11 +24,18 @@ const ContactForm = ({ user }) => {
 
         const formData = {
           fraudType: e.target.fraud_type.value,
-          comments: e.target.comments.value,
-          datetime: selectedDatetime,
-          location: { lat, lng },
+          comments: [
+            {
+              text: e.target.comments.value,
+              userId: user.userId,
+            },
+          ],
+          dateTime: selectedDatetime,
+          position: { lat, lng },
           userId: user.userId,
+          scamTypeId: "65142125e2a40efa93086532",
         };
+        console.log("formData", formData);
         const response = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/scams`,
           formData
