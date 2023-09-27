@@ -101,7 +101,7 @@ const App = () => {
             />
             <Route path="/report-scam" element={<ContactForm />} />
           </Routes>
-          <ContactForm />
+          <ContactForm user={user} />
           <SignUpForm />
           <LoginForm setUser={setUser} />
           <Card />

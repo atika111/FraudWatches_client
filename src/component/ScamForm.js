@@ -1,27 +1,44 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 import AutocompleteInput from "./AutocompleteInput";
 
-const ContactForm = () => {
+const ContactForm = ({ user }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   const location = useLocation();
   const coords = location.state?.coords;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission with the selectedPlace data
-    if (selectedPlace && selectedPlace.geometry) {
-      // You can access place.geometry safely here
-      // For example:
-      const location = selectedPlace.geometry.location;
-      const lat = location.lat();
-      const lng = location.lng();
-      // Rest of your form submission logic
-      console.log({ lat, lng });
-    } else {
-      // Handle the case when place is null or undefined
-      console.error("Invalid place object");
+    console.log(user);
+
+    try {
+      if (selectedPlace && selectedPlace.geometry) {
+        const location = selectedPlace.geometry.location;
+
+        const lat = location.lat();
+        const lng = location.lng();
+
+        const selectedDatetime = `${e.target.date.value}T${e.target.time.value}:00`;
+
+        const formData = {
+          fraudType: e.target.fraud_type.value,
+          comments: e.target.comments.value,
+          datetime: selectedDatetime,
+          location: { lat, lng },
+          userId: user.userId,
+        };
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/scams`,
+          formData
+        );
+        console.log("Response from the server:", response.data);
+      } else {
+        console.error("Invalid place object");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
