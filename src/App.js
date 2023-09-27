@@ -10,8 +10,7 @@ import SignUpForm from "./component/SignUpForm";
 import LoginForm from "./component/LoginForm";
 import Card from "./component/ScamCard";
 import NavBar from "./component/NavBar";
-import './App.css';
-
+import "./App.css";
 
 const defaultCenter = {
   lat: 51.5,
@@ -27,6 +26,7 @@ const App = () => {
   const [mode, setMode] = useState(MODES.MOVE);
   const [markers, setMarkers] = useState([]);
   const [user, setUser] = useState();
+  const [scamTypes, setScamTypes] = useState([]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -72,6 +72,13 @@ const App = () => {
     setMarkers(res.data);
   };
 
+  const fetchScamTypes = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/scamtypes`
+    );
+    setScamTypes(res.data.data);
+  };
+
   useEffect(() => {
     getLocation()
       .then((curLoc) => {
@@ -83,6 +90,7 @@ const App = () => {
       });
 
     fetchAllScams();
+    fetchScamTypes();
   }, []);
 
   return (
@@ -91,16 +99,14 @@ const App = () => {
 
       {isLoaded ? (
         <>
-
           <Routes>
-            <Route path="/report-scam" element={<ContactForm />} /> {/*  map with all the scams  */}
+            <Route path="/report-scam" element={<ContactForm />} />{" "}
+            {/*  map with all the scams  */}
             <Route path="/signup" element={<SignUpForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/scamform" element={<ContactForm />} />
-            <Route path="/scamcard" element={<Card />} />
+            <Route path="/scamcard" element={<Card scamTypes={scamTypes} />} />
           </Routes>
-
-
 
           <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
           <button onClick={toggleMode}>

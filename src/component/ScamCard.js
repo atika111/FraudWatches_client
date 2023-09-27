@@ -12,10 +12,13 @@ const dateOptions = {
   timeZoneName: "short",
 };
 
-const Card = () => {
+const Card = ({ scamTypes }) => {
   const location = useLocation();
   const marker = location.state?.marker;
   const date = new Date(marker.dateTime);
+  const scamType = scamTypes.find((type) => (type._id = marker.scamTypeId));
+  const advice = scamType.advice;
+  const scamTypeName = scamType.name;
 
   const [position, setPosition] = useState();
 
@@ -26,7 +29,6 @@ const Card = () => {
           marker.position.lat,
           marker.position.lng
         );
-        console.log(pos);
         setPosition(pos);
       } catch (error) {
         console.error("Error getting position:", error);
@@ -48,13 +50,13 @@ const Card = () => {
 
   return (
     <div className="card">
-      <h2 className="card-title">Art Scam</h2>
+      <h2 className="card-title">{scamTypeName}</h2>
       <div className="card-info">
         <p>Location: {position}</p>
         <p>
           Time of Committing: {date.toLocaleDateString("en-US", dateOptions)}
         </p>
-        <p>Advice: Be careful</p>
+        <p>Advice: {advice}</p>
       </div>
       <div className="card-buttons">
         <button className="subButton" onClick={handleStillThereClick}>
