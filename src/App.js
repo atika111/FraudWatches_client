@@ -51,9 +51,8 @@ const App = () => {
   const onMarkerAdd = useCallback(
     (coords) => {
       setMarkers([...markers, coords]);
-      navigate("/report-scam", { state: { coords } });
     },
-    [markers, navigate]
+    [markers]
   );
 
   const clearMarkers = useCallback(() => {
@@ -83,27 +82,25 @@ const App = () => {
         <button onClick={clearMarkers}>Clear</button>
       </div>
       {isLoaded ? (
-        <>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Map
-                  center={center}
-                  mode={mode}
-                  markers={markers}
-                  onMarkerAdd={onMarkerAdd}
-                />
-              }
-            />
-            <Route path="/report-scam" element={<ContactForm />} />
-          </Routes>
-          <ContactForm />
-          <SignUpForm />
-        </>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Map
+                center={center}
+                mode={mode}
+                markers={markers}
+                onMarkerAdd={onMarkerAdd}
+              />
+            }
+          />
+          <Route path="/report-scam" element={<ContactForm />} />
+        </Routes>
       ) : (
         <h2>Loading...</h2>
       )}
+      <ContactForm />
+      <SignUpForm />
     </div>
   );
 };
