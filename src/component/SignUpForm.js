@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 const SignUpForm = () => {
     const [firstName, setFirstName] = useState('');
@@ -37,8 +39,19 @@ const SignUpForm = () => {
         }
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        console.log('Form data:', {
+            firstName,
+            lastName,
+            email,
+            username,
+            password,
+            confirmPassword,
+        });
+
         if (
             firstName &&
             lastName &&
@@ -49,15 +62,42 @@ const SignUpForm = () => {
             password.length >= 6 &&
             password === confirmPassword
         ) {
-            console.log('Form data:', {
+            // Create an object with the user data
+            const userData = {
                 firstName,
                 lastName,
                 email,
                 username,
                 password,
-                confirmPassword,
-            });
-            setFormMessage(''); // Clear the form message if the form is valid
+            };
+
+            // Make a POST request to your server
+            axios
+                .post(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, userData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        // If the response is successful, you can clear the form and show a success message
+                        setFirstName('');
+                        setLastName('');
+                        setEmail('');
+                        setUsername('');
+                        setPassword('');
+                        setConfirmPassword('');
+                        setFormMessage('Sign up successful!');
+                    } else {
+                        // If there was an error, you can handle it here
+                        setFormMessage('Error signing up. Please try again.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setFormMessage('Error signing up. Please try again.');
+                });
+
         } else {
             setFormMessage('Please fill in all the fields before signing up.');
         }
@@ -151,10 +191,13 @@ const SignUpForm = () => {
                             onChange={handleInputChange}
                         />
 
-                        <button className="subButton" type="submit" value="Sign Up">
+                        <button
+                            className="subButton"
+                            type="submit"
+                            value="Sign Up"
+                        >
                             <strong>Sign Up</strong>
                         </button>
-                        <div className="form-message">{formMessage}</div>
                     </fieldset>
                 </form>
             </section>
