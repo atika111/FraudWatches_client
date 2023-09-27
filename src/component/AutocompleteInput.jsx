@@ -1,5 +1,5 @@
-import React from 'react';
-import { Autocomplete } from '@react-google-maps/api';
+import React from "react";
+import { Autocomplete } from "@react-google-maps/api";
 
 const AutocompleteInput = ({ onSelectPlace }) => {
   const handlePlaceSelect = (place) => {
@@ -9,13 +9,13 @@ const AutocompleteInput = ({ onSelectPlace }) => {
   return (
     <Autocomplete
       onLoad={(autocomplete) => {
-        autocomplete.addListener('place_changed', () => {
+        autocomplete.addListener("place_changed", () => {
           const selectedPlace = autocomplete.getPlace();
           handlePlaceSelect(selectedPlace);
         });
       }}
     >
-      <input type='text' placeholder='Enter a location' />
+      <input type="text" placeholder="Enter a location" />
     </Autocomplete>
   );
 };
