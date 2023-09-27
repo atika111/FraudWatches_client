@@ -51,8 +51,9 @@ const App = () => {
   const onMarkerAdd = useCallback(
     (coords) => {
       setMarkers([...markers, coords]);
+      navigate("/report-scam", { state: { coords } });
     },
-    [markers]
+    [markers, navigate]
   );
 
   const clearMarkers = useCallback(() => {

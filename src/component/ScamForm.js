@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import AutocompleteInput from "./AutocompleteInput";
 
 const ContactForm = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
+
+  const location = useLocation();
+  const coords = location.state?.coords;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,7 +48,10 @@ const ContactForm = () => {
               </option>
               <option value="other">Other</option>
             </select>
-            <AutocompleteInput onSelectPlace={setSelectedPlace} />
+            <AutocompleteInput
+              onSelectPlace={setSelectedPlace}
+              initialCoords={coords}
+            />
 
             <label htmlFor="comments">
               <strong>Tell me more about it:</strong>
