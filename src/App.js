@@ -65,9 +65,8 @@ const App = () => {
   const onMarkerAdd = useCallback(
     (coords) => {
       setMarkers([...markers, coords]);
-      navigate("/report-scam", { state: { coords } });
     },
-    [markers, navigate]
+    [markers]
   );
 
   const clearMarkers = useCallback(() => {
@@ -155,6 +154,8 @@ const App = () => {
       ) : (
         <h2>Loading...</h2>
       )}
+      <ContactForm />
+      <SignUpForm />
     </div>
   );
 };

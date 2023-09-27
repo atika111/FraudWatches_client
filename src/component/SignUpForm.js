@@ -71,7 +71,6 @@ const SignUpForm = () => {
                 password,
             };
 
-
             // Make a POST request to your server
             axios
                 .post(`http://localhost:8080/auth/signup`, userData, {
@@ -86,6 +85,7 @@ const SignUpForm = () => {
                         setLastName('');
                         setEmail('');
                         setnickname('');
+
                         setPassword('');
                         setConfirmPassword('');
                         setFormMessage('Sign up successful!');
