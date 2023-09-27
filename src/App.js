@@ -5,6 +5,7 @@ import Map, { MODES } from "./component/map";
 import { getLocation } from "./utils/geo";
 import ContactForm from "./component/ScamForm";
 import Autocomplete from "./component/Autocomplete/Autocomplete";
+import SignUpForm from "./component/SignUpForm";
 
 const defaultCenter = {
   lat: 51.5,
@@ -99,6 +100,7 @@ const App = () => {
         <h2>Loading...</h2>
       )}
       <ContactForm />
+      <SignUpForm />
     </div>
   );
 };
