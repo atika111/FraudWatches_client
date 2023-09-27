@@ -1,25 +1,94 @@
-import logo from './logo.svg';
-import './App.css';
+import { useJsApiLoader } from '@react-google-maps/api';
+import { useCallback, useEffect, useState } from 'react';
+import Map, { MODES } from './component/map';
+import { getLocation } from './utils/geo';
 
-function App() {
+const defaultCenter = {
+  lat: 51.5,
+  lng: 0.118092,
+};
+
+const libraries = ['places'];
+
+const App = () => {
+  const [center, setCenter] = useState(defaultCenter);
+  const [mode, setMode] = useState(MODES.MOVE);
+  const [markers, setMarkers] = useState([]);
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
+    // mapIds: [process.env.REACT_APP_MAP_ID],
+    libraries,
+  });
+
+  const onPlaceSelect = useCallback(
+    (coords) => {
+      setCenter(coords);
+      setMarkers([...markers, coords]);
+    },
+    [markers]
+  );
+
+  const toggleMode = useCallback(() => {
+    switch (mode) {
+      case MODES.MOVE:
+        setMode(MODES.SET_MARKER);
+        break;
+      case MODES.SET_MARKER:
+        setMode(MODES.MOVE);
+        break;
+      default:
+        setMode(MODES.MOVE);
+    }
+  }, [mode]);
+
+  const onMarkerAdd = useCallback(
+    (coords) => {
+      setMarkers([...markers, coords]);
+    },
+    [markers]
+  );
+
+  const clearMarkers = useCallback(() => {
+    setMarkers([]);
+  }, []);
+
+  useEffect(() => {
+    getLocation()
+      .then((curLoc) => {
+        setCenter(curLoc);
+        console.log('curLoc', curLoc);
+      })
+      .catch((defaultLocation) => {
+        setCenter(defaultLocation);
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div className='addressSearchContainer'>
+        {/* <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} /> */}
+        <button onClick={toggleMode}>
+          {mode === MODES.MOVE ? 'Set markers' : 'Move map'}
+        </button>
+        <button onClick={clearMarkers}>Clear</button>
+      </div>
+      {isLoaded ? (
+        <>
+          {/* <ScamForm /> */}
+          <Map
+            center={center}
+            mode={mode}
+            markers={markers}
+            onMarkerAdd={onMarkerAdd}
+          />
+        </>
+      ) : (
+        <h2>Loading...</h2>
+      )}
     </div>
   );
-}
+};
 
 export default App;
