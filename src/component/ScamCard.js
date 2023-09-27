@@ -82,6 +82,22 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
         </p>
         <p>Advice: {advice}</p>
       </div>
+      <ul>
+        {Object.entries(marker.emergencyNumbers).map((n) =>
+          n[1] ? (
+            <li>
+              {n[0]}: {n[1]}
+            </li>
+          ) : null
+        )}
+      </ul>
+      <ul>
+        {marker.comments.map((c) => (
+          <li>
+            {c.text} - {c.userId}
+          </li>
+        ))}
+      </ul>
       <div className="card-buttons">
         <button className="subButton" onClick={handleStillThereClick}>
           Still There
