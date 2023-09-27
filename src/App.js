@@ -1,6 +1,12 @@
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, Routes, Route, Link } from "react-router-dom";
+import {
+  useNavigate,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import Map, { MODES } from "./component/map";
 import axios from "axios";
 import { getLocation } from "./utils/geo";
@@ -21,6 +27,7 @@ const libraries = ["places"];
 
 const App = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [center, setCenter] = useState(defaultCenter);
   const [mode, setMode] = useState(MODES.MOVE);
@@ -108,17 +115,21 @@ const App = () => {
             <Route path="/scamcard" element={<Card scamTypes={scamTypes} />} />
           </Routes>
 
-          <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
-          <button onClick={toggleMode}>
-            {mode === MODES.MOVE ? "Set markers" : "Move map"}
-          </button>
-          <button onClick={clearMarkers}>Clear</button>
-          <Map
-            center={center}
-            mode={mode}
-            markers={markers}
-            onMarkerAdd={onMarkerAdd}
-          />
+          {location.pathname === "/" && (
+            <>
+              <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
+              <button onClick={toggleMode}>
+                {mode === MODES.MOVE ? "Set markers" : "Move map"}
+              </button>
+              <button onClick={clearMarkers}>Clear</button>
+              <Map
+                center={center}
+                mode={mode}
+                markers={markers}
+                onMarkerAdd={onMarkerAdd}
+              />
+            </>
+          )}
           <ContactForm user={user} />
           <LoginForm setUser={setUser} />
         </>
