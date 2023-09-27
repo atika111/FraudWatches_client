@@ -1,8 +1,9 @@
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, Routes, Route } from 'react-router-dom';
+import { useNavigate, Routes, Route, Form } from 'react-router-dom';
 import Map, { MODES } from './component/map';
 import { getLocation } from './utils/geo';
+import Form from './component/ScamForm';
 
 const defaultCenter = {
   lat: 51.5,
@@ -89,7 +90,9 @@ const App = () => {
       ) : (
         <h2>Loading...</h2>
       )}
+      <Form/>
     </div>
+   
   );
 };
 
