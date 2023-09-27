@@ -1,5 +1,6 @@
 import { useCallback, useRef } from "react";
 import { GoogleMap } from "@react-google-maps/api";
+import { useNavigate } from "react-router-dom";
 import { defaultTheme, darkTheme } from "../utils/theme";
 import Marker from "./Marker";
 
@@ -30,7 +31,7 @@ export const MODES = {
 
 const Map = ({ center, mode, markers, onMarkerAdd }) => {
   const mapRef = useRef();
-  console.log("markers", markers);
+  const navigate = useNavigate();
 
   const onLoad = useCallback(function callback(map) {
     mapRef.current = map;
@@ -53,9 +54,7 @@ const Map = ({ center, mode, markers, onMarkerAdd }) => {
   );
 
   const onMarkerClick = (marker) => {
-    // Handle marker click here
-    // You can use the 'marker' object to identify which marker was clicked
-    console.log("Marker clicked:", marker);
+    navigate("/scamcard", { state: { marker } });
   };
 
   return (
