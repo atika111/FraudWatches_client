@@ -6,6 +6,7 @@ import { getLocation } from "./utils/geo";
 import ContactForm from "./component/ScamForm";
 import Autocomplete from "./component/Autocomplete/Autocomplete";
 import SignUpForm from "./component/SignUpForm";
+import LoginForm from "./component/LoginForm";
 
 const defaultCenter = {
   lat: 51.5,
@@ -82,20 +83,25 @@ const App = () => {
         <button onClick={clearMarkers}>Clear</button>
       </div>
       {isLoaded ? (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Map
-                center={center}
-                mode={mode}
-                markers={markers}
-                onMarkerAdd={onMarkerAdd}
-              />
-            }
-          />
-          <Route path="/report-scam" element={<ContactForm />} />
-        </Routes>
+        <>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Map
+                  center={center}
+                  mode={mode}
+                  markers={markers}
+                  onMarkerAdd={onMarkerAdd}
+                />
+              }
+            />
+            <Route path="/report-scam" element={<ContactForm />} />
+          </Routes>
+          <ContactForm />
+          <SignUpForm />
+          <LoginForm />
+        </>
       ) : (
         <h2>Loading...</h2>
       )}
