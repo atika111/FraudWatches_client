@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import OpeningPage from './OpeningPage';
+
 
 const NavBar = () => {
     return (
