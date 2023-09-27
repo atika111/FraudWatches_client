@@ -6,7 +6,7 @@ const SignUpForm = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
+    const [nickname, setnickname] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [formMessage, setFormMessage] = useState('');
@@ -25,8 +25,8 @@ const SignUpForm = () => {
             case 'email':
                 setEmail(value);
                 break;
-            case 'username':
-                setUsername(value);
+            case 'nickname':
+                setnickname(value);
                 break;
             case 'password':
                 setPassword(value);
@@ -47,7 +47,7 @@ const SignUpForm = () => {
             firstName,
             lastName,
             email,
-            username,
+            nickname,
             password,
             confirmPassword,
         });
@@ -56,7 +56,7 @@ const SignUpForm = () => {
             firstName &&
             lastName &&
             email &&
-            username &&
+            nickname &&
             password &&
             confirmPassword &&
             password.length >= 6 &&
@@ -67,13 +67,14 @@ const SignUpForm = () => {
                 firstName,
                 lastName,
                 email,
-                username,
+                nickname,
                 password,
             };
 
+
             // Make a POST request to your server
             axios
-                .post(`${process.env.REACT_APP_SERVER_URL}/auth/signup`, userData, {
+                .post(`http://localhost:8080/auth/signup`, userData, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -84,7 +85,7 @@ const SignUpForm = () => {
                         setFirstName('');
                         setLastName('');
                         setEmail('');
-                        setUsername('');
+                        setnickname('');
                         setPassword('');
                         setConfirmPassword('');
                         setFormMessage('Sign up successful!');
@@ -152,16 +153,16 @@ const SignUpForm = () => {
                             onChange={handleInputChange}
                         />
 
-                        <label htmlFor="username">
-                            <strong>Username</strong>
+                        <label htmlFor="nickname">
+                            <strong>nickname</strong>
                         </label>
                         <input
                             type="text"
-                            id="username"
-                            name="username"
+                            id="nickname"
+                            name="nickname"
                             className="form-input"
-                            placeholder="Username"
-                            value={username}
+                            placeholder="nickname"
+                            value={nickname}
                             onChange={handleInputChange}
                         />
 
