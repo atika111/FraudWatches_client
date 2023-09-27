@@ -9,6 +9,9 @@ import Autocomplete from "./component/Autocomplete/Autocomplete";
 import SignUpForm from "./component/SignUpForm";
 import LoginForm from "./component/LoginForm";
 import Card from "./component/ScamCard";
+import NavBar from "./component/NavBar";
+import './App.css';
+
 
 const defaultCenter = {
   lat: 51.5,
@@ -84,35 +87,35 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="addressSearchContainer">
-        <Link to="/">Home</Link>
-        <Link to="/report-scam">Report scam</Link>
-        <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
-        <button onClick={toggleMode}>
-          {mode === MODES.MOVE ? "Set markers" : "Move map"}
-        </button>
-        <button onClick={clearMarkers}>Clear</button>
-      </div>
+      <NavBar />
+
       {isLoaded ? (
         <>
+
           <Routes>
-            <Route
-              path="/"
-              element={
-                <Map
-                  center={center}
-                  mode={mode}
-                  markers={markers}
-                  onMarkerAdd={onMarkerAdd}
-                />
-              }
-            />
-            <Route path="/report-scam" element={<ContactForm />} />
+            <Route path="/report-scam" element={<ContactForm />} /> {/*  map with all the scams  */}
+            <Route path="/signup" element={<SignUpForm />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/scamform" element={<ContactForm />} />
+            <Route path="/scamcard" element={<Card />} />
           </Routes>
+
+
+
+          <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
+          <button onClick={toggleMode}>
+            {mode === MODES.MOVE ? "Set markers" : "Move map"}
+          </button>
+          <button onClick={clearMarkers}>Clear</button>
+          <Map
+            center={center}
+            mode={mode}
+            markers={markers}
+            onMarkerAdd={onMarkerAdd}
+          />
+          <NavBar />
           <ContactForm user={user} />
-          <SignUpForm />
           <LoginForm setUser={setUser} />
-          <Card />
         </>
       ) : (
         <h2>Loading...</h2>

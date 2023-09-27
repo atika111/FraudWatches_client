@@ -32,7 +32,37 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.navbar {
+  position: fixed;
+  /* Fixed to the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  /* Full width */
+  background-color: green;
+  /* Updated background color to green */
+  padding: 10px 0;
+  /* Adjust the padding as needed */
+  display: flex;
+  /* Make links display horizontally */
+  justify-content: space-between;
+  /* Space links evenly between them */
+  align-items: center;
+  /* Center links vertically */
+}
+
+.nav-link {
+  text-decoration: none;
+  /* Remove underline */
+  color: #fff;
+  /* Text color */
+  font-size: 16px;
+  /* Adjust font size as needed */
 }
