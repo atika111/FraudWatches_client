@@ -1,5 +1,6 @@
 import { useJsApiLoader } from '@react-google-maps/api';
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, Routes, Route } from 'react-router-dom';
 import Map, { MODES } from './component/map';
 import { getLocation } from './utils/geo';
 
@@ -11,6 +12,8 @@ const defaultCenter = {
 const libraries = ['places'];
 
 const App = () => {
+  const navigate = useNavigate();
+
   const [center, setCenter] = useState(defaultCenter);
   const [mode, setMode] = useState(MODES.MOVE);
   const [markers, setMarkers] = useState([]);
@@ -76,7 +79,6 @@ const App = () => {
       </div>
       {isLoaded ? (
         <>
-          {/* <ScamForm /> */}
           <Map
             center={center}
             mode={mode}
