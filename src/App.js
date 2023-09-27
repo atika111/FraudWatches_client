@@ -7,6 +7,7 @@ import ContactForm from "./component/ScamForm";
 import Autocomplete from "./component/Autocomplete/Autocomplete";
 import SignUpForm from "./component/SignUpForm";
 import LoginForm from "./component/LoginForm";
+import Card from "./component/card";
 
 const defaultCenter = {
   lat: 51.5,
@@ -103,6 +104,7 @@ const App = () => {
           <ContactForm />
           <SignUpForm />
           <LoginForm setUser={setUser} />
+          <Card />
         </>
       ) : (
         <h2>Loading...</h2>
