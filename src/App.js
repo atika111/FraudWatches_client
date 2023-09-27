@@ -1,12 +1,22 @@
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, Routes, Route, Link } from "react-router-dom";
+import {
+  useNavigate,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import Map, { MODES } from "./component/map";
+import axios from "axios";
 import { getLocation } from "./utils/geo";
 import ContactForm from "./component/ScamForm";
 import Autocomplete from "./component/Autocomplete/Autocomplete";
 import SignUpForm from "./component/SignUpForm";
 import LoginForm from "./component/LoginForm";
+import Card from "./component/ScamCard";
+import NavBar from "./component/NavBar";
+import "./App.css";
 
 const defaultCenter = {
   lat: 51.5,
@@ -17,11 +27,13 @@ const libraries = ["places"];
 
 const App = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [center, setCenter] = useState(defaultCenter);
   const [mode, setMode] = useState(MODES.MOVE);
   const [markers, setMarkers] = useState([]);
   const [user, setUser] = useState();
+  const [scamTypes, setScamTypes] = useState([]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -61,6 +73,18 @@ const App = () => {
     setMarkers([]);
   }, []);
 
+  const fetchAllScams = async () => {
+    const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/scams`);
+    setMarkers(res.data);
+  };
+
+  const fetchScamTypes = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/scamtypes`
+    );
+    setScamTypes(res.data.data);
+  };
+
   useEffect(() => {
     getLocation()
       .then((curLoc) => {
@@ -70,38 +94,62 @@ const App = () => {
       .catch((defaultLocation) => {
         setCenter(defaultLocation);
       });
+
+    fetchAllScams();
+    fetchScamTypes();
   }, []);
 
   return (
     <div className="App">
-      <div className="addressSearchContainer">
-        <Link to="/">Home</Link>
-        <Link to="/report-scam">Report scam</Link>
-        <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
-        <button onClick={toggleMode}>
-          {mode === MODES.MOVE ? "Set markers" : "Move map"}
-        </button>
-        <button onClick={clearMarkers}>Clear</button>
-      </div>
+      <NavBar />
+
       {isLoaded ? (
         <>
           <Routes>
             <Route
-              path="/"
+              path="/report-scam"
               element={
-                <Map
-                  center={center}
-                  mode={mode}
+                <ContactForm
+                  user={user}
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
                   markers={markers}
-                  onMarkerAdd={onMarkerAdd}
+                />
+              }
+            />{" "}
+            <Route path="/signup" element={<SignUpForm />} />
+            <Route path="/login" element={<LoginForm setUser={setUser} />} />
+            <Route
+              path="/scamform"
+              element={<ContactForm user={user} scamTypes={scamTypes} />}
+            />
+            <Route
+              path="/scamcard"
+              element={
+                <Card
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
+                  markers={markers}
                 />
               }
             />
-            <Route path="/report-scam" element={<ContactForm />} />
           </Routes>
-          <ContactForm />
-          <SignUpForm />
-          <LoginForm setUser={setUser} />
+
+          {location.pathname === "/" && (
+            <>
+              <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
+              <button onClick={toggleMode}>
+                {mode === MODES.MOVE ? "Set markers" : "Move map"}
+              </button>
+              <button onClick={clearMarkers}>Clear</button>
+              <Map
+                center={center}
+                mode={mode}
+                markers={markers}
+                onMarkerAdd={onMarkerAdd}
+              />
+            </>
+          )}
         </>
       ) : (
         <h2>Loading...</h2>

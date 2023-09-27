@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  font-family: "ysabeau";
+  src: url('https://fonts.googleapis.com/css2?family=Ysabeau:wght@300&display=swap');
+  font-style: normal;
+  font-weight: 100;
 }
 
 .App-logo {
@@ -32,7 +36,126 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.navbar {
+  position: fixed;
+  /* Fixed to the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  /* Full width */
+  background-color: green;
+  /* Updated background color to green */
+  padding: 10px 0;
+  /* Adjust the padding as needed */
+  display: flex;
+  /* Make links display horizontally */
+  justify-content: space-around;
+  /* Space links evenly between them */
+  align-items: center;
+  /* Center links vertically */
+}
+
+.nav-link {
+  text-decoration: none;
+  /* Remove underline */
+  color: #fff;
+  /* Text color */
+  font-size: 16px;
+  /* Adjust font size as needed */
+}
+
+
+
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes drop {
+  0% {
+    transform: translateY(-300%) scale(.3, 1.8);
+    animation-timing-function: cubic-bezier(1, 0, 1, 1);
+  }
+
+  70% {
+    transform: translateY(0%) scale(1, 1.2);
+    animation-timing-function: ease;
+  }
+
+  80% {
+    transform: translateY(0%) scaleY(.8);
+  }
+
+  100% {
+    transform: translateY(0%) scaleY(1);
+  }
+}
+
+#animation {
+  position: relative;
+  width: 200px;
+  height: 174px;
+}
+
+#animation-wrapper {
+  padding: 90px;
+  overflow: hidden;
+}
+
+
+#BigMarker,
+#SmallMarker {
+  position: absolute;
+  width: auto;
+  transform: translateY(-300%) scale(.3, 1.8);
+  animation-duration: 1s;
+  transform-origin: bottom center;
+  animation-name: drop;
+  animation-fill-mode: forwards;
+}
+
+#BigMarker {
+  height: 84%;
+  left: 0;
+  bottom: 0.1%;
+}
+
+#SmallMarker {
+  height: 56%;
+  left: 59%;
+  bottom: 31%;
+
+  animation-delay: 1.8s;
+}
+
+#MarkerPath,
+#MarkerPathOverlay {
+  position: absolute;
+  height: 35%;
+  width: auto;
+  bottom: 0;
+  left: 32%;
+}
+
+#MarkerPathOverlay path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  animation-duration: 2s;
+  animation-name: draw;
+  animation-timing-function: linear;
+  animation-delay: .9s;
+  animation-fill-mode: forwards;
 }

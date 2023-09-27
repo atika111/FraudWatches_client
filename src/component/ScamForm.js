@@ -1,34 +1,63 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 import AutocompleteInput from "./AutocompleteInput";
+import OpeningPage from "./OpeningPage";
 
-const ContactForm = () => {
+const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   const location = useLocation();
   const coords = location.state?.coords;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission with the selectedPlace data
-    if (selectedPlace && selectedPlace.geometry) {
-      // You can access place.geometry safely here
-      // For example:
-      const location = selectedPlace.geometry.location;
-      const lat = location.lat();
-      const lng = location.lng();
-      // Rest of your form submission logic
-      console.log({ lat, lng });
-    } else {
-      // Handle the case when place is null or undefined
-      console.error("Invalid place object");
+    console.log(user);
+
+    try {
+      if (selectedPlace && selectedPlace.geometry) {
+        const location = selectedPlace.geometry.location;
+
+        const lat = location.lat();
+        const lng = location.lng();
+
+        const selectedDatetime = `${e.target.date.value}T${e.target.time.value}:00`;
+
+        const formData = {
+          comments: [
+            {
+              text: e.target.comments.value,
+              userId: user.userId,
+            },
+          ],
+          dateTime: selectedDatetime,
+          position: { lat, lng },
+          userId: user.userId,
+          scamTypeId: e.target.fraud_type.value,
+          isThereRating: {
+            all: 1,
+            confirmed: 1,
+          },
+        };
+        console.log("formData", formData);
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/scams`,
+          formData
+        );
+        console.log("Response from the server:", response.data);
+        setMarkers([...markers, response.data.newScam]);
+      } else {
+        console.error("Invalid place object");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   return (
     <div className="contact-form">
       <section>
-        <form method="POST" onSubmit={handleSubmit}>
+        <form method="POST" onSubmit={handleSubmit} className="scam_form">
           <fieldset>
             <legend>
               <strong>Fill out the form below to report a fraud</strong>
@@ -39,14 +68,8 @@ const ContactForm = () => {
             </label>
             <select id="fraud_type" name="fraud_type" className="form-input">
               <option selected>Select one...</option>
-              <option value="Pickpocketing">Pickpocketing</option>
-              <option value="Advance Fee Fraud">Advance Fee Fraud</option>
-              <option value="Door-to-Door Scam">Door-to-Door Scam</option>
-              <option value="Fake Charity Scam">Fake Charity Scam</option>
-              <option value="Street Performer Scam">
-                I want to fly with you to see cool cities
-              </option>
-              <option value="other">Other</option>
+              {scamTypes &&
+                scamTypes.map((t) => <option value={t._id}>{t.name}</option>)}
             </select>
             <AutocompleteInput
               onSelectPlace={setSelectedPlace}

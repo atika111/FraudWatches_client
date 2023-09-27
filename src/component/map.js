@@ -1,11 +1,12 @@
-import { useCallback, useRef } from 'react';
-import { GoogleMap } from '@react-google-maps/api';
-import { defaultTheme, darkTheme } from '../utils/theme';
-import Marker from './Marker';
+import { useCallback, useRef } from "react";
+import { GoogleMap } from "@react-google-maps/api";
+import { useNavigate } from "react-router-dom";
+import { defaultTheme, darkTheme } from "../utils/theme";
+import Marker from "./Marker";
 
 const containerStyle = {
-  width: '100%',
-  height: '100%',
+  width: "100%",
+  height: "100%",
 };
 
 const defaultOptions = {
@@ -30,6 +31,7 @@ export const MODES = {
 
 const Map = ({ center, mode, markers, onMarkerAdd }) => {
   const mapRef = useRef();
+  const navigate = useNavigate();
 
   const onLoad = useCallback(function callback(map) {
     mapRef.current = map;
@@ -52,13 +54,11 @@ const Map = ({ center, mode, markers, onMarkerAdd }) => {
   );
 
   const onMarkerClick = (marker) => {
-    // Handle marker click here
-    // You can use the 'marker' object to identify which marker was clicked
-    console.log('Marker clicked:', marker);
+    navigate("/scamcard", { state: { marker } });
   };
 
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: "100vh" }}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -68,11 +68,11 @@ const Map = ({ center, mode, markers, onMarkerAdd }) => {
         options={defaultOptions}
         onClick={onClick}
       >
-        {markers.map((pos) => (
+        {markers.map((marker) => (
           <Marker
-            position={pos}
-            key={pos.lat}
-            onClick={() => onMarkerClick(pos)}
+            position={marker.position}
+            key={marker._id}
+            onClick={() => onMarkerClick(marker)}
           />
         ))}
       </GoogleMap>
