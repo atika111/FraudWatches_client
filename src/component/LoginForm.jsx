@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const LoginForm = () => {
+const LoginForm = ({ setUser }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,7 +23,7 @@ const LoginForm = () => {
         `${process.env.REACT_APP_SERVER_URL}/auth/login`,
         formData
       );
-
+      setUser(response.data);
       console.log("Login successful!", response.data);
     } catch (error) {
       console.error("Login failed:", error);

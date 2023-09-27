@@ -21,6 +21,7 @@ const App = () => {
   const [center, setCenter] = useState(defaultCenter);
   const [mode, setMode] = useState(MODES.MOVE);
   const [markers, setMarkers] = useState([]);
+  const [user, setUser] = useState();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -100,7 +101,7 @@ const App = () => {
           </Routes>
           <ContactForm />
           <SignUpForm />
-          <LoginForm />
+          <LoginForm setUser={setUser} />
         </>
       ) : (
         <h2>Loading...</h2>
