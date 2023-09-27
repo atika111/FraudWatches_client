@@ -16,10 +16,22 @@ code {
 /* ContactForm.css */
 .contact-form {
   font-family: "ysabeau", Arial, Helvetica, sans-serif;
-  margin: 5%;
-  margin-bottom: 80px;
+  margin: 0;
+  /* Remove margin to cover full width */
+  height: calc(100vh - 20px);
+  /* Calculate height based on viewport height minus navbar height */
   font-size: 1.3rem;
+  display: flex;
+  /* Make form a flex container */
   flex-direction: column;
+  justify-content: center;
+  /* Center content vertically */
+  align-items: center;
+  /* Center content horizontally */
+}
+
+.scam_form {
+  height: 80%;
 }
 
 .form-input {
@@ -55,4 +67,11 @@ code {
   background-color: #E4D0D0;
   color: white;
   cursor: not-allowed;
+}
+
+
+section {
+  /* Set the height of the section to 80% of its parent's height */
+  height: 80%;
+  /* Add other styles as needed */
 }

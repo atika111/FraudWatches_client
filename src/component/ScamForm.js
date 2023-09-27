@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import AutocompleteInput from "./AutocompleteInput";
+import OpeningPage from "./OpeningPage";
 
 const ContactForm = ({ user }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -52,7 +53,7 @@ const ContactForm = ({ user }) => {
   return (
     <div className="contact-form">
       <section>
-        <form method="POST" onSubmit={handleSubmit}>
+        <form method="POST" onSubmit={handleSubmit} className="scam_form">
           <fieldset>
             <legend>
               <strong>Fill out the form below to report a fraud</strong>
