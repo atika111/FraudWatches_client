@@ -6,6 +6,7 @@ import { getLocation } from "./utils/geo";
 import ContactForm from "./component/ScamForm";
 import Autocomplete from "./component/Autocomplete/Autocomplete";
 import SignUpForm from "./component/SignUpForm";
+import LoginForm from "./component/LoginForm";
 
 const defaultCenter = {
   lat: 51.5,
@@ -100,6 +101,7 @@ const App = () => {
           </Routes>
           <ContactForm />
           <SignUpForm />
+          <LoginForm />
         </>
       ) : (
         <h2>Loading...</h2>
