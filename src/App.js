@@ -2,6 +2,7 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, Routes, Route, Link } from "react-router-dom";
 import Map, { MODES } from "./component/map";
+import axios from "axios";
 import { getLocation } from "./utils/geo";
 import ContactForm from "./component/ScamForm";
 import Autocomplete from "./component/Autocomplete/Autocomplete";
@@ -63,6 +64,11 @@ const App = () => {
     setMarkers([]);
   }, []);
 
+  const fetchAllScams = async () => {
+    const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/scams`);
+    setMarkers(res.data);
+  };
+
   useEffect(() => {
     getLocation()
       .then((curLoc) => {
@@ -72,6 +78,8 @@ const App = () => {
       .catch((defaultLocation) => {
         setCenter(defaultLocation);
       });
+
+    fetchAllScams();
   }, []);
 
   return (
