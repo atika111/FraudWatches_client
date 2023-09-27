@@ -107,11 +107,23 @@ const App = () => {
       {isLoaded ? (
         <>
           <Routes>
-            <Route path="/report-scam" element={<ContactForm />} />{" "}
-            {/*  map with all the scams  */}
+            <Route
+              path="/report-scam"
+              element={
+                <ContactForm
+                  user={user}
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
+                  markers={markers}
+                />
+              }
+            />{" "}
             <Route path="/signup" element={<SignUpForm />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/scamform" element={<ContactForm />} />
+            <Route path="/login" element={<LoginForm setUser={setUser} />} />
+            <Route
+              path="/scamform"
+              element={<ContactForm user={user} scamTypes={scamTypes} />}
+            />
             <Route path="/scamcard" element={<Card scamTypes={scamTypes} />} />
           </Routes>
 
@@ -130,8 +142,6 @@ const App = () => {
               />
             </>
           )}
-          <ContactForm user={user} />
-          <LoginForm setUser={setUser} />
         </>
       ) : (
         <h2>Loading...</h2>
