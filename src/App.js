@@ -4,6 +4,7 @@ import { useNavigate, Routes, Route, Link } from "react-router-dom";
 import Map, { MODES } from "./component/map";
 import { getLocation } from "./utils/geo";
 import ContactForm from "./component/ScamForm";
+import Autocomplete from "./component/Autocomplete/Autocomplete";
 
 const defaultCenter = {
   lat: 51.5,
@@ -29,7 +30,6 @@ const App = () => {
   const onPlaceSelect = useCallback(
     (coords) => {
       setCenter(coords);
-      setMarkers([...markers, coords]);
     },
     [markers]
   );
@@ -74,7 +74,7 @@ const App = () => {
       <div className="addressSearchContainer">
         <Link to="/">Home</Link>
         <Link to="/report-scam">Report scam</Link>
-        {/* <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} /> */}
+        <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
         <button onClick={toggleMode}>
           {mode === MODES.MOVE ? "Set markers" : "Move map"}
         </button>
