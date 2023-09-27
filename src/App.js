@@ -7,7 +7,7 @@ import ContactForm from "./component/ScamForm";
 import Autocomplete from "./component/Autocomplete/Autocomplete";
 import SignUpForm from "./component/SignUpForm";
 import LoginForm from "./component/LoginForm";
-import Card from "./component/card";
+import Card from "./component/ScamCard";
 
 const defaultCenter = {
   lat: 51.5,

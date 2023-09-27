@@ -1,5 +1,5 @@
 import React from 'react';
-import './ContactForm.css'; // Import your CSS file
+
 
 const Card = () => {
     // Click event handler for the "Still There" button
