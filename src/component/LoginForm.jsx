@@ -33,7 +33,7 @@ const LoginForm = ({ setUser }) => {
 
   return (
     <div className="contact-form">
-      <h1>Log In</h1>
+
       <section>
         <form action="#" method="POST" onSubmit={handleSubmit}>
           <fieldset>

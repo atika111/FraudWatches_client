@@ -115,7 +115,7 @@ const App = () => {
       });
     setTimeout(() => {
       setShowLopading(false);
-    }, 7000);
+    }, 3500);
     fetchAllScams();
     fetchScamTypes();
   }, []);
@@ -163,6 +163,7 @@ const App = () => {
                 className="autocomplete"
                 isLoaded={isLoaded}
                 onSelect={onPlaceSelect}
+                style={{ fontFamily: 'ysabeau' }}
               />
               <button
                 className="toggle-button button-corner"

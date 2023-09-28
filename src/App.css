@@ -172,6 +172,17 @@
 
 /* Button in the top left corner */
 .button-corner {
+  background-color: #C5E1A5;
+  color: black;
+  font-weight: bold;
+  border: none;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1.5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-right: 10px;
+  font-family: 'Ysabeau';
   position: fixed;
   top: 10px;
   left: 10px;

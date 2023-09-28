@@ -82,6 +82,7 @@ label {
   transition: background-color 0.3s, color 0.3s;
   margin-right: 10px;
   font-family: 'Ysabeau';
+  font-weight: bold;
 }
 
 .subButton:hover {

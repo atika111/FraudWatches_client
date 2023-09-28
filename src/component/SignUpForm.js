@@ -106,7 +106,7 @@ const SignUpForm = () => {
 
     return (
         <div className="contact-form">
-            <h1>Sign Up</h1>
+
             <section>
                 <form onSubmit={handleSubmit}>
                     <fieldset>
