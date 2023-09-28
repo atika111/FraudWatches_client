@@ -17,8 +17,8 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
   });
 
   const scamType = scamTypes.find((type) => (type._id = marker.scamTypeId));
-  const advice = scamType.advice;
-  const scamTypeName = scamType.name;
+  const advice = scamType?.advice || "Be careful!";
+  const scamTypeName = scamType?.name || "";
 
   useEffect(() => {
     const getPosition = async () => {
