@@ -33,10 +33,8 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
       }
     };
 
-    // Click event handler for the "I Don't See Scammers" button
-    const handleDontSeeScammersClick = () => {
-        console.log("User clicked 'I Don't See Scammers' button");
-    };
+    getPosition(); // Call the async function
+  }, [marker]);
 
   // Click event handler for the "Still There" button
   const handleStillThereClick = async () => {
