@@ -81,6 +81,7 @@ label {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin-right: 10px;
+  font-family: 'Ysabeau';
 }
 
 .subButton:hover {
@@ -108,3 +109,35 @@ section {
   height: 80%;
   /* Add other styles as needed */
 }
+
+
+/* Additional CSS for form groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  /* Add some spacing between form elements */
+}
+
+/* Additional CSS for form labels */
+.form-label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Additional CSS for form textareas */
+.form-textarea {
+  font-family: "ysabeau", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  height: 100px;
+  /* Adjust the height as needed */
+  width: 100%;
+  max-width: 350px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+/* Add any other necessary styling for your form groups */

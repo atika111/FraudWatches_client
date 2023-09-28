@@ -17,6 +17,7 @@ import LoginForm from "./component/LoginForm";
 import Card from "./component/ScamCard";
 import NavBar from "./component/NavBar";
 import "./App.css";
+import OpeningPage from "./component/OpeningPage";
 
 const defaultCenter = {
   lat: 51.5,
@@ -31,6 +32,7 @@ const App = () => {
 
   const [center, setCenter] = useState(defaultCenter);
   const [mode, setMode] = useState(MODES.MOVE);
+  const [showLoading, setShowLopading] = useState(true);
   const [markers, setMarkers] = useState([]);
   const [user, setUser] = useState();
   const [scamTypes, setScamTypes] = useState([]);
@@ -95,67 +97,69 @@ const App = () => {
       .catch((defaultLocation) => {
         setCenter(defaultLocation);
       });
-
+    setTimeout(() => {
+      setShowLopading(false)
+    }, 7000)
     fetchAllScams();
     fetchScamTypes();
   }, []);
 
   return (
-    <div className="App">
-      <NavBar />
+    showLoading ? <OpeningPage /> :
+      <div className="App">
+        <NavBar />
+        {isLoaded ? (
+          <>
+            <Routes>
+              <Route
+                path="/report-scam"
+                element={
+                  <ContactForm
+                    user={user}
+                    scamTypes={scamTypes}
+                    setMarkers={setMarkers}
+                    markers={markers}
+                  />
+                }
+              />{" "}
+              <Route path="/signup" element={<SignUpForm />} />
+              <Route path="/login" element={<LoginForm setUser={setUser} />} />
 
-      {isLoaded ? (
-        <>
-          <Routes>
-            <Route
-              path="/report-scam"
-              element={
-                <ContactForm
-                  user={user}
-                  scamTypes={scamTypes}
-                  setMarkers={setMarkers}
-                  markers={markers}
-                />
-              }
-            />{" "}
-            <Route path="/signup" element={<SignUpForm />} />
-            <Route path="/login" element={<LoginForm setUser={setUser} />} />
-
-            <Route
-              path="/scamform"
-              element={<ContactForm user={user} scamTypes={scamTypes} />}
-            />
-            <Route
-              path="/scamcard"
-              element={
-                <Card
-                  scamTypes={scamTypes}
-                  setMarkers={setMarkers}
-                  markers={markers}
-                />
-              }
-            />
-          </Routes>
-
-          {location.pathname === "/" && (
-            <>
-              <Autocomplete className="autocomplete" isLoaded={isLoaded} onSelect={onPlaceSelect} />
-              <button className="toggle-button button-corner" onClick={toggleMode}>
-                {mode === MODES.MOVE ? "Set markers" : "Move map"}
-              </button>
-              <Map className="map"
-                center={center}
-                mode={mode}
-                markers={markers}
-                onMarkerAdd={onMarkerAdd}
+              <Route
+                path="/scamform"
+                element={<ContactForm user={user} scamTypes={scamTypes} />}
               />
-            </>
-          )}
-        </>
-      ) : (
-        <h2>Loading...</h2>
-      )}
-    </div>
+              <Route
+                path="/scamcard"
+                element={
+                  <Card
+                    scamTypes={scamTypes}
+                    setMarkers={setMarkers}
+                    markers={markers}
+                  />
+                }
+              />
+            </Routes>
+
+            {location.pathname === "/" && (
+              <>
+                <Autocomplete className="autocomplete" isLoaded={isLoaded} onSelect={onPlaceSelect} />
+                <button className="toggle-button button-corner" onClick={toggleMode}>
+                  {mode === MODES.MOVE ? "Set markers" : "Move map"}
+                </button>
+                <Map className="map"
+                  center={center}
+                  mode={mode}
+                  markers={markers}
+                  onMarkerAdd={onMarkerAdd}
+                />
+              </>
+            )}
+          </>
+        ) : (
+          <h2>Loading...</h2>
+        )}
+      </div>
   );
 };
 

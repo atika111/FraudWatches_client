@@ -57,49 +57,58 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
   return (
     <div className="contact-form">
       <section>
-        <form method="POST" onSubmit={handleSubmit} className="scam_form">
+        <form method="POST" onSubmit={handleSubmit} className="form-container">
           <fieldset>
             <legend>
               <strong>Fill out the form below to report a fraud</strong>
             </legend>
 
-            <label htmlFor="fraud_type">
-              <strong>Fraud Type:</strong>
-            </label>
-            <select id="fraud_type" name="fraud_type" className="form-input">
-              <option selected>Select one...</option>
-              {scamTypes &&
-                scamTypes.map((t) => <option value={t._id}>{t.name}</option>)}
-            </select>
-            <AutocompleteInput
+            <div className="form-group">
+              <label htmlFor="fraud_type" className="form-label">
+                <strong>Fraud Type:</strong>
+              </label>
+              <select id="fraud_type" name="fraud_type" className="form-input select_class" >
+                <option defaultValue>Select one...</option>
+                {scamTypes &&
+                  scamTypes.map((t) => (
+                    <option key={t._id} value={t._id}>
+                      {t.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <AutocompleteInput className="form-input"
               onSelectPlace={setSelectedPlace}
               initialCoords={coords}
             />
 
-            <label htmlFor="comments">
-              <strong>Tell me more about it:</strong>
-            </label>
-            <textarea
-              id="comments"
-              maxLength="250"
-              name="comments"
-              className="form-textarea"
-            ></textarea>
-            <p></p>
+            <div className="form-group">
+              <label htmlFor="comments" className="form-label">
+                <strong>Tell me more about it:</strong>
+              </label>
+              <textarea
+                id="comments"
+                maxLength="250"
+                name="comments"
+                className="form-textarea"
+              ></textarea>
+            </div>
 
-            <label htmlFor="date">
-              <strong>Select a Date</strong>
-            </label>
-            <input type="date" id="date" name="date" className="form-input" />
+            <div className="form-group">
+              <label htmlFor="date" className="form-label">
+                <strong>Select a Date</strong>
+              </label>
+              <input type="date" id="date" name="date" className="form-input" />
+            </div>
 
-            <label htmlFor="time">
-              <strong>Select a Time</strong>
-            </label>
-            <input type="time" id="time" name="time" className="form-input" />
+            <div className="form-group">
+              <label htmlFor="time" className="form-label">
+                <strong>Select a Time</strong>
+              </label>
+              <input type="time" id="time" name="time" className="form-input" />
+            </div>
 
-            <button className="subButton">click on me!</button>
-
-
+            <button className="subButton">Submit</button>
           </fieldset>
         </form>
       </section>
