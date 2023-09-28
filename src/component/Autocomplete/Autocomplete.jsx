@@ -1,12 +1,12 @@
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
-} from 'use-places-autocomplete';
-import useOnclickOutside from 'react-cool-onclickoutside';
-import s from './Autocomplete.module.css';
-import { useEffect } from 'react';
+} from "use-places-autocomplete";
+import useOnclickOutside from "react-cool-onclickoutside";
+import s from "./Autocomplete.module.css";
+import { useEffect } from "react";
 
-const Autocomplete = ({ isLoaded, onSelect }) => {
+const Autocomplete = ({ isLoaded, onSelect, className }) => {
   const {
     ready,
     value,
@@ -35,19 +35,19 @@ const Autocomplete = ({ isLoaded, onSelect }) => {
 
   const handleSelect =
     ({ description }) =>
-      () => {
-        // When the user selects a place, we can replace the keyword without request data from API
-        // by setting the second parameter to "false"
-        setValue(description, false);
-        clearSuggestions();
+    () => {
+      // When the user selects a place, we can replace the keyword without request data from API
+      // by setting the second parameter to "false"
+      setValue(description, false);
+      clearSuggestions();
 
-        // Get latitude and longitude via utility functions
-        getGeocode({ address: description }).then((results) => {
-          const { lat, lng } = getLatLng(results[0]);
-          console.log('📍 Coordinates: ', { lat, lng });
-          onSelect({ lat, lng });
-        });
-      };
+      // Get latitude and longitude via utility functions
+      getGeocode({ address: description }).then((results) => {
+        const { lat, lng } = getLatLng(results[0]);
+        console.log("📍 Coordinates: ", { lat, lng });
+        onSelect({ lat, lng });
+      });
+    };
 
   const renderSuggestions = () =>
     data.map((suggestion) => {
@@ -72,15 +72,19 @@ const Autocomplete = ({ isLoaded, onSelect }) => {
   }, [isLoaded, init]);
 
   return (
-    <div className={s.root} ref={ref} style={{ fontFamily: 'ysabeau' }}>
+    <div
+      className={`${s.root} ${className}`}
+      ref={ref}
+      style={{ fontFamily: "ysabeau" }}
+    >
       <input
         className={s.input}
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder='Where are you going?'
+        placeholder="Where are you going?"
       />
-      {status === 'OK' && (
+      {status === "OK" && (
         <ul className={s.suggestions}>{renderSuggestions()}</ul>
       )}
     </div>
