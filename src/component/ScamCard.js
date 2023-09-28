@@ -97,52 +97,58 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
     return (
         <div className="contact-form">
             <section>
-                <div className="card">
-                    <h2 className="card-title">{scamTypeName}</h2>
-                    <div className="card-info">
-                        <p>Location: {position}</p>
-                        <p>Time of Committing: {formattedDatetime}</p>
-                        <p>Advice: {advice}</p>
-                    </div>
-                    <ul className="emergency-numbers-list">
-                        {Object.entries(marker.emergencyNumbers).map((n) =>
-                            n[1] ? (
-                                <li>
-                                    {n[0]}: {n[1]}
-                                </li>
-                            ) : null
-                        )}
-                    </ul>
-                    <ul className="comments-list">
-                        {marker.comments.map((c, index) => (
-                            <div key={index}>
-                                <li>Comment: {c.text}</li>
-                                <li>User: {getUserNickname(c.userId)}</li>
-                                <li style={{ fontStyle: 'italic' }}>
-                                    {formatDistanceToNow(new Date(c.date), {
-                                        addSuffix: true,
-                                    })}
-                                </li>
+                <form>
+                    <fieldset>
+                        <legend>
+                            <h2 className="card-title">{scamTypeName}</h2>
+                        </legend>
+                        <div className="card">
+                            <div className="card-info">
+                                <p><strong>Location:</strong> {position}</p>
+                                <p><strong>Committed:</strong> {formattedDatetime}</p>
+                                <p><strong>Advice:</strong> {advice}</p>
                             </div>
-                        ))}
-                    </ul>
-                    <div className="card-buttons">
-                        <button
-                            className="subButton"
-                            onClick={handleStillThereClick}
-                            disabled={isButtonClicked}
-                        >
-                            Still There
-                        </button>
-                        <button
-                            className="subButton"
-                            onClick={handleDontSeeScammersClick}
-                            disabled={isButtonClicked}
-                        >
-                            I Don't See Scammers
-                        </button>
-                    </div>
-                </div>
+                            <ul className="emergency-numbers-list">
+                                {Object.entries(marker.emergencyNumbers).map((n) =>
+                                    n[1] ? (
+                                        <li style={{ fontWeight: 'bold' }}>
+                                            {n[0]}: {n[1]}
+                                        </li>
+                                    ) : null
+                                )}
+                            </ul>
+                            <ul className="comments-list">
+                                {marker.comments.map((c, index) => (
+                                    <div key={index}>
+                                        <li><strong>Comment:</strong> {c.text}</li>
+                                        <li><strong>User:</strong> {getUserNickname(c.userId)}</li>
+                                        <li style={{ fontStyle: 'italic' }}>
+                                            {formatDistanceToNow(new Date(c.date), {
+                                                addSuffix: true,
+                                            })}
+                                        </li>
+                                    </div>
+                                ))}
+                            </ul>
+                            <div className="card-buttons">
+                                <button
+                                    className="subButton"
+                                    onClick={handleStillThereClick}
+                                    disabled={isButtonClicked}
+                                >
+                                    Still There
+                                </button>
+                                <button
+                                    className="subButton"
+                                    onClick={handleDontSeeScammersClick}
+                                    disabled={isButtonClicked}
+                                >
+                                    I Don't See Scammers
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             </section >
         </div >
     );
