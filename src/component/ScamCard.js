@@ -9,6 +9,9 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
   const location = useLocation();
   const marker = location.state?.marker;
 
+  const [position, setPosition] = useState();
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
   const formattedDatetime = formatDistanceToNow(new Date(marker.dateTime), {
     addSuffix: true,
   });
@@ -16,8 +19,6 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
   const scamType = scamTypes.find((type) => (type._id = marker.scamTypeId));
   const advice = scamType.advice;
   const scamTypeName = scamType.name;
-
-  const [position, setPosition] = useState();
 
   useEffect(() => {
     const getPosition = async () => {
@@ -38,13 +39,18 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
   // Click event handler for the "Still There" button
   const handleStillThereClick = async () => {
     console.log("User clicked 'Still There' button");
-    const res = await axios.put(
-      `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
-      {
-        isConfirmed: 1,
-      }
-    );
-    console.log("res", res);
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
+        {
+          isConfirmed: 1,
+        }
+      );
+      console.log("res", res);
+      setIsButtonClicked(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Click event handler for the "I Don't See Scammers" button
@@ -58,6 +64,7 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
         }
       );
       console.log("res", res);
+      setIsButtonClicked(true);
     } catch (error) {
       if (error.request.status === 404) {
         const updatedMarkers = markers.filter((m) => m._id !== marker._id);
@@ -67,17 +74,12 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
     }
   };
 
-  console.log(marker.comments);
-
   return (
     <div className="card">
       <h2 className="card-title">{scamTypeName}</h2>
       <div className="card-info">
         <p>Location: {position}</p>
-        <p>
-          {/* Time of Committing: {date.toLocaleDateString("en-US", dateOptions)} */}
-          Time of Committing: {formattedDatetime}
-        </p>
+        <p>Time of Committing: {formattedDatetime}</p>
         <p>Advice: {advice}</p>
       </div>
       <ul>
@@ -100,10 +102,18 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
         ))}
       </ul>
       <div className="card-buttons">
-        <button className="subButton" onClick={handleStillThereClick}>
+        <button
+          className="subButton"
+          onClick={handleStillThereClick}
+          disabled={isButtonClicked}
+        >
           Still There
         </button>
-        <button className="subButton" onClick={handleDontSeeScammersClick}>
+        <button
+          className="subButton"
+          onClick={handleDontSeeScammersClick}
+          disabled={isButtonClicked}
+        >
           I Don't See Scammers
         </button>
       </div>
