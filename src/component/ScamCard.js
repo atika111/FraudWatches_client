@@ -11,6 +11,7 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
 
   const [position, setPosition] = useState();
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [usersCommented, setUsersCommented] = useState([]);
 
   const formattedDatetime = formatDistanceToNow(new Date(marker.dateTime), {
     addSuffix: true,
@@ -19,6 +20,11 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
   const scamType = scamTypes.find((type) => (type._id = marker.scamTypeId));
   const advice = scamType?.advice || "Be careful!";
   const scamTypeName = scamType?.name || "";
+
+  const getUserNickname = (userId) => {
+    const user = usersCommented.find((user) => user._id === userId);
+    return user ? user.nickname : "Unknown User";
+  };
 
   useEffect(() => {
     const getPosition = async () => {
@@ -35,6 +41,21 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
 
     getPosition(); // Call the async function
   }, [marker]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/auth/usersByIds`,
+        {
+          usersIds: marker.comments.map((c) => c.userId),
+        }
+      );
+      console.log(res);
+      setUsersCommented(res.data);
+    };
+
+    fetchUsers();
+  });
 
   // Click event handler for the "Still There" button
   const handleStillThereClick = async () => {
@@ -94,7 +115,7 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
       <ul>
         {marker.comments.map((c) => (
           <li>
-            Comment:{c.text} - User:{c.userId} -{" "}
+            Comment: {c.text} - User: {getUserNickname(c.userId)} -{" "}
             {formatDistanceToNow(new Date(c.date), {
               addSuffix: true,
             })}
