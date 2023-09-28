@@ -180,3 +180,16 @@ section {
 .Autocomplete_suggestions__32TfM {
   
 }
+
+.black_border {
+  border: 0.5px solid black;
+  margin: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+}
+
+
+.subButton {
+  margin-bottom: 20px;
+}
