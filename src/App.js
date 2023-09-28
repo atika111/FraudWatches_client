@@ -138,12 +138,11 @@ const App = () => {
 
           {location.pathname === "/" && (
             <>
-              <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
-              <button onClick={toggleMode}>
+              <Autocomplete className="autocomplete" isLoaded={isLoaded} onSelect={onPlaceSelect} />
+              <button className="toggle-button button-corner" onClick={toggleMode}>
                 {mode === MODES.MOVE ? "Set markers" : "Move map"}
               </button>
-              <button onClick={clearMarkers}>Clear</button>
-              <Map
+              <Map className="map"
                 center={center}
                 mode={mode}
                 markers={markers}
