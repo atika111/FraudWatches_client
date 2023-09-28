@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import AutocompleteInput from "./AutocompleteInput";
 import OpeningPage from "./OpeningPage";
 
 const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
-
-  const navigate = useNavigate();
 
   const location = useLocation();
   const coords = location.state?.coords;
@@ -48,7 +46,6 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
         );
         console.log("Response from the server:", response.data);
         setMarkers([...markers, response.data.newScam]);
-        navigate("/");
       } else {
         console.error("Invalid place object");
       }
