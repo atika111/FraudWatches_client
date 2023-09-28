@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginForm = ({ setUser }) => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,6 +28,7 @@ const LoginForm = ({ setUser }) => {
       );
       setUser(response.data);
       console.log("Login successful!", response.data);
+      navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -33,7 +36,6 @@ const LoginForm = ({ setUser }) => {
 
   return (
     <div className="contact-form">
-
       <section>
         <form action="#" method="POST" onSubmit={handleSubmit}>
           <fieldset>
@@ -71,8 +73,9 @@ const LoginForm = ({ setUser }) => {
             <button className="subButton" type="submit" value="Log In">
               <strong>Log In</strong>
             </button>
-            <Link to="/signup" className="sign_link">Dont have user?</Link>
-
+            <Link to="/signup" className="sign_link">
+              Dont have user?
+            </Link>
           </fieldset>
         </form>
       </section>
