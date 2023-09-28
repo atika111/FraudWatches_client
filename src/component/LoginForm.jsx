@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Alert } from "antd"; // Import Alert from Ant Design
+import "../css/LoginForm.css";
 
 const LoginForm = ({ setUser }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate()
+
+  const [error, setError] = useState(null); // State for displaying errors
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,8 +24,8 @@ const LoginForm = ({ setUser }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    const formData = e
+    
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/auth/login`,
@@ -26,55 +33,86 @@ const LoginForm = ({ setUser }) => {
       );
       setUser(response.data);
       console.log("Login successful!", response.data);
+      navigate('/')
     } catch (error) {
-      console.error("Login failed:", error);
+      setError("Login failed: " + error.message); // Set the error state
     }
   };
 
   return (
     <div className="contact-form">
-      <h1>Log In</h1>
       <section>
-        <form action="#" method="POST" onSubmit={handleSubmit}>
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={handleSubmit}
+        >
+          {error && <Alert message={error} type="error" showIcon />}{" "}
           <fieldset>
             <legend>
               <strong>Log In Form</strong>
             </legend>
 
-            <label htmlFor="email">
-              <strong>Email</strong>
-            </label>
-            <input
-              type="email"
-              id="email"
+            <Form.Item
               name="email"
-              className="form-input"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-            />
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Email!",
+                },
+              ]}
+              className="login-form-item"
+            >
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Email"
+                onChange={handleChange}
+              />
+            </Form.Item>
 
-            <label htmlFor="password">
-              <strong>Password</strong>
-            </label>
-            <input
-              type="password"
-              id="password"
+            <Form.Item
               name="password"
-              className="form-input"
-              placeholder="Password (at least 6 characters)"
-              minLength="6"
-              value={formData.password}
-              onChange={handleChange}
-            />
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Password!",
+                },
+              ]}
+              className="login-form-item"
+            >
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder="Password (at least 6 characters)"
+                minLength={6}
+                onChange={handleChange}
+              />
+            </Form.Item>
 
-            <button className="subButton" type="submit" value="Log In">
-              <strong>Log In</strong>
-            </button>
-            <Link to="/signup" className="sign_link">Dont have user?</Link>
+            <Form.Item>
+              <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
+            </Form.Item>
 
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="subButton"
+                value="Log In"
+              >
+                <strong>Log In</strong>
+              </Button>
+              <Link to="/signup" className="sign_link">
+                Don't have an account? Sign Up
+              </Link>
+            </Form.Item>
           </fieldset>
-        </form>
+        </Form>
       </section>
     </div>
   );

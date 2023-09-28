@@ -1,0 +1,26 @@
+/* SignUpForm.css */
+
+.sign-up-container {
+  max-width: 600px;
+  margin: 2rem auto 2rem auto; /* Set equal top and bottom margin */
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: auto;
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+  .sign-up-container {
+    padding: 10px;
+    /* Adjust the height for smaller screens */
+    height: auto;
+  }
+}
+
+.ant-form-item {
+  margin-bottom: 12px;
+  /* Adjust the margin-bottom value if needed */
+}
+
+/* Additional CSS for other form elements as needed */

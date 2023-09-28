@@ -1,210 +1,174 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Form, Input, Button, message } from "antd";
+import axios from "axios";
+import "../css/SignUpForm.css"; // Import your custom CSS for styling
+import { useNavigate } from "react-router";
 
 
 const SignUpForm = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [nickname, setnickname] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [formMessage, setFormMessage] = useState('');
+  const [form] = Form.useForm();
+  const [formMessage, setFormMessage] = useState("");
+  const [serverErrors, setServerErrors] = useState({}); // State to store server errors
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+  const navigate = useNavigate()
 
-        // Update the corresponding state variable based on the input name
-        switch (name) {
-            case 'firstName':
-                setFirstName(value);
-                break;
-            case 'lastName':
-                setLastName(value);
-                break;
-            case 'email':
-                setEmail(value);
-                break;
-            case 'nickname':
-                setnickname(value);
-                break;
-            case 'password':
-                setPassword(value);
-                break;
-            case 'confirmPassword':
-                setConfirmPassword(value);
-                break;
-            default:
-                break;
-        }
+  const onFinish = (values) => {
+    console.log("Received values of form:", values);
+
+    const { firstName, lastName, email, nickname, password } = values;    
+
+    const userData = {
+        firstName,
+        lastName,
+        email,
+        nickname,
+        password,
     };
-
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        console.log('Form data:', {
-            firstName,
-            lastName,
-            email,
-            nickname,
-            password,
-            confirmPassword,
-        });
-
-        if (
-            firstName &&
-            lastName &&
-            email &&
-            nickname &&
-            password &&
-            confirmPassword &&
-            password.length >= 6 &&
-            password === confirmPassword
-        ) {
-            // Create an object with the user data
-            const userData = {
-                firstName,
-                lastName,
-                email,
-                nickname,
-                password,
-            };
-
-
-            // Make a POST request to your server
-            axios
-                .post(`http://localhost:8080/auth/signup`, userData, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        // If the response is successful, you can clear the form and show a success message
-                        setFirstName('');
-                        setLastName('');
-                        setEmail('');
-                        setnickname('');
-                        setPassword('');
-                        setConfirmPassword('');
-                        setFormMessage('Sign up successful!');
-                    } else {
-                        // If there was an error, you can handle it here
-                        setFormMessage('Error signing up. Please try again.');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    setFormMessage('Error signing up. Please try again.');
-                });
-
+    
+    axios
+    .post("http://localhost:8080/auth/signup", userData, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((response) => {
+        if (response.status === 200) {
+            form.resetFields(); // Clear the form
+            message.success("Sign up successful!");
+            setServerErrors({}); // Clear server errors on success
         } else {
-            setFormMessage('Please fill in all the fields before signing up.');
+            // Handle server errors
+          if (response.data && response.data.error) {
+            setServerErrors({ email: response.data.error });
+          } else {
+            setServerErrors({}); // Clear server errors if the structure is unexpected
+          }
+          message.error("Error signing up. Please try again.");
         }
-    };
+      })
+      navigate('/login')
+      .catch((error) => {
+        console.error("Error:", error);
+        message.error("Error signing up. Please try again.");
+      });
+  };
 
-    return (
-        <div className="contact-form">
-            <h1>Sign Up</h1>
-            <section>
-                <form onSubmit={handleSubmit}>
-                    <fieldset>
-                        <legend>
-                            <strong>Sign Up Form</strong>
-                        </legend>
+  return (
+    <div className="sign-up-container">
+      <h1>Sign Up</h1>
+      <section>
+        <Form form={form} onFinish={onFinish}>
+          <Form.Item
+            name="firstName"
+            label="First Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your first name!",
+              },
+            ]}
+          >
+            <Input placeholder="First Name" />
+          </Form.Item>
 
-                        <label htmlFor="firstName">
-                            <strong>First Name</strong>
-                        </label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            className="form-input"
-                            placeholder="First Name"
-                            value={firstName}
-                            onChange={handleInputChange}
-                        />
+          <Form.Item
+            name="lastName"
+            label="Last Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your last name!",
+              },
+            ]}
+          >
+            <Input placeholder="Last Name" />
+          </Form.Item>
 
-                        <label htmlFor="lastName">
-                            <strong>Last Name</strong>
-                        </label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            className="form-input"
-                            placeholder="Last Name"
-                            value={lastName}
-                            onChange={handleInputChange}
-                        />
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                type: "email",
+                message: "The input is not a valid email address!",
+              },
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+            validateStatus={serverErrors.email ? "error" : ""}
+            help={serverErrors.email}
+          >
+            <Input placeholder="Email" />
+          </Form.Item>
 
-                        <label htmlFor="email">
-                            <strong>Email</strong>
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            className="form-input"
-                            placeholder="Email"
-                            value={email}
-                            onChange={handleInputChange}
-                        />
+          <Form.Item
+            name="nickname"
+            label="Nickname"
+            rules={[
+              {
+                required: true,
+                message: "Please input your nickname!",
+              },
+            ]}
+          >
+            <Input placeholder="Nickname" />
+          </Form.Item>
 
-                        <label htmlFor="nickname">
-                            <strong>nickname</strong>
-                        </label>
-                        <input
-                            type="text"
-                            id="nickname"
-                            name="nickname"
-                            className="form-input"
-                            placeholder="nickname"
-                            value={nickname}
-                            onChange={handleInputChange}
-                        />
+          <Form.Item
+            name="password"
+            label="Password"
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+              {
+                min: 6,
+                message: "Password must be at least 6 characters!",
+              },
+            ]}
+          >
+            <Input.Password placeholder="Password" />
+          </Form.Item>
 
-                        <label htmlFor="password">
-                            <strong>Password</strong>
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            className="form-input"
-                            placeholder="Password (at least 6 characters)"
-                            value={password}
-                            onChange={handleInputChange}
-                        />
+          <Form.Item
+            name="confirmPassword"
+            label="Confirm Password"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Please confirm your password!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("The passwords do not match!")
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password placeholder="Confirm Password" />
+          </Form.Item>
 
-                        <label htmlFor="confirmPassword">
-                            <strong>Confirm Password</strong>
-                        </label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            className="form-input"
-                            placeholder="Confirm Password"
-                            value={confirmPassword}
-                            onChange={handleInputChange}
-                        />
-
-                        <button
-                            className="subButton"
-                            type="submit"
-                            value="Sign Up"
-                        >
-                            <strong>Sign Up</strong>
-                        </button>
-
-                    </fieldset>
-                </form>
-            </section>
-        </div>
-    );
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Sign Up
+            </Button>
+          </Form.Item>
+        </Form>
+        {formMessage && <p>{formMessage}</p>}
+      </section>
+    </div>
+  );
 };
 
 export default SignUpForm;
