@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
@@ -57,42 +57,44 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
   }, [marker]);
 
   // Click event handler for the "Still There" button
-  const handleStillThereClick = async () => {
-    console.log("User clicked 'Still There' button");
-    try {
-      const res = await axios.put(
-        `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
-        {
-          isConfirmed: 1,
-        }
-      );
-      console.log("res", res);
-      setIsButtonClicked(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Click event handler for the "I Don't See Scammers" button
-  const handleDontSeeScammersClick = async () => {
-    console.log("User clicked 'I Don't See Scammers' button");
-    try {
-      const res = await axios.put(
-        `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
-        {
-          isConfirmed: 0,
-        }
-      );
-      console.log("res", res);
-      setIsButtonClicked(true);
-    } catch (error) {
-      if (error.request.status === 404) {
-        const updatedMarkers = markers.filter((m) => m._id !== marker._id);
-        setMarkers(updatedMarkers);
-        navigate("/");
+  const handleStillThereClick = useCallback(async () => {
+    if (!isButtonClicked) {
+      try {
+        const res = await axios.put(
+          `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
+          {
+            isConfirmed: 1,
+          }
+        );
+        console.log("res", res);
+        setIsButtonClicked(true);
+      } catch (error) {
+        console.log(error);
       }
     }
-  };
+  }, [isButtonClicked, marker._id]);
+
+  // Click event handler for the "I Don't See Scammers" button
+  const handleDontSeeScammersClick = useCallback(async () => {
+    if (!isButtonClicked) {
+      try {
+        const res = await axios.put(
+          `${process.env.REACT_APP_SERVER_URL}/isThereRating/${marker._id}`,
+          {
+            isConfirmed: 0,
+          }
+        );
+        console.log("res", res);
+        setIsButtonClicked(true);
+      } catch (error) {
+        if (error.request.status === 404) {
+          const updatedMarkers = markers.filter((m) => m._id !== marker._id);
+          setMarkers(updatedMarkers);
+          navigate("/");
+        }
+      }
+    }
+  }, [isButtonClicked, marker._id, markers, navigate, setMarkers]);
 
   return (
     <div className="contact-form">
