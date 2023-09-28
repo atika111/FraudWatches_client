@@ -26,6 +26,17 @@ const defaultCenter = {
 
 const libraries = ["places"];
 
+const colors = ["blue", "gold", "green", "magenta", "red"];
+const scamTypeColorMap = {};
+const assignColorToScamType = (scamTypeId) => {
+  if (!scamTypeColorMap[scamTypeId]) {
+    // Use modulo to cycle through available colors
+    const color = colors[Object.keys(scamTypeColorMap).length % colors.length];
+    scamTypeColorMap[scamTypeId] = color;
+  }
+  return scamTypeColorMap[scamTypeId];
+};
+
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,13 +89,18 @@ const App = () => {
 
   const fetchAllScams = async () => {
     const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/scams`);
-    setMarkers(res.data);
+    const scamsWithColors = res.data.map((scam) => ({
+      ...scam,
+      color: assignColorToScamType(scam.scamTypeId),
+    }));
+    setMarkers(scamsWithColors);
   };
 
   const fetchScamTypes = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVER_URL}/scamtypes`
     );
+
     setScamTypes(res.data.data);
   };
 
@@ -98,68 +114,76 @@ const App = () => {
         setCenter(defaultLocation);
       });
     setTimeout(() => {
-      setShowLopading(false)
-    }, 7000)
+      setShowLopading(false);
+    }, 7000);
     fetchAllScams();
     fetchScamTypes();
   }, []);
 
-  return (
-    showLoading ? <OpeningPage /> :
-      <div className="App">
-        <NavBar />
-        {isLoaded ? (
-          <>
-            <Routes>
-              <Route
-                path="/report-scam"
-                element={
-                  <ContactForm
-                    user={user}
-                    scamTypes={scamTypes}
-                    setMarkers={setMarkers}
-                    markers={markers}
-                  />
-                }
-              />{" "}
-              <Route path="/signup" element={<SignUpForm />} />
-              <Route path="/login" element={<LoginForm setUser={setUser} />} />
-
-              <Route
-                path="/scamform"
-                element={<ContactForm user={user} scamTypes={scamTypes} />}
-              />
-              <Route
-                path="/scamcard"
-                element={
-                  <Card
-                    scamTypes={scamTypes}
-                    setMarkers={setMarkers}
-                    markers={markers}
-                  />
-                }
-              />
-            </Routes>
-
-            {location.pathname === "/" && (
-              <>
-                <Autocomplete className="autocomplete" isLoaded={isLoaded} onSelect={onPlaceSelect} />
-                <button className="toggle-button button-corner" onClick={toggleMode}>
-                  {mode === MODES.MOVE ? "Set markers" : "Move map"}
-                </button>
-                <Map className="map"
-                  center={center}
-                  mode={mode}
+  return showLoading ? (
+    <OpeningPage />
+  ) : (
+    <div className="App">
+      <NavBar />
+      {isLoaded ? (
+        <>
+          <Routes>
+            <Route
+              path="/report-scam"
+              element={
+                <ContactForm
+                  user={user}
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
                   markers={markers}
-                  onMarkerAdd={onMarkerAdd}
                 />
-              </>
-            )}
-          </>
-        ) : (
-          <h2>Loading...</h2>
-        )}
-      </div>
+              }
+            />{" "}
+            <Route path="/signup" element={<SignUpForm />} />
+            <Route path="/login" element={<LoginForm setUser={setUser} />} />
+            <Route
+              path="/scamform"
+              element={<ContactForm user={user} scamTypes={scamTypes} />}
+            />
+            <Route
+              path="/scamcard"
+              element={
+                <Card
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
+                  markers={markers}
+                />
+              }
+            />
+          </Routes>
+
+          {location.pathname === "/" && (
+            <>
+              <Autocomplete
+                className="autocomplete"
+                isLoaded={isLoaded}
+                onSelect={onPlaceSelect}
+              />
+              <button
+                className="toggle-button button-corner"
+                onClick={toggleMode}
+              >
+                {mode === MODES.MOVE ? "Set markers" : "Move map"}
+              </button>
+              <Map
+                className="map"
+                center={center}
+                mode={mode}
+                markers={markers}
+                onMarkerAdd={onMarkerAdd}
+              />
+            </>
+          )}
+        </>
+      ) : (
+        <h2>Loading...</h2>
+      )}
+    </div>
   );
 };
 

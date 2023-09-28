@@ -72,6 +72,7 @@ const Map = ({ center, mode, markers, onMarkerAdd }) => {
           <Marker
             position={marker.position}
             key={marker._id}
+            color={marker.color}
             onClick={() => onMarkerClick(marker)}
           />
         ))}
