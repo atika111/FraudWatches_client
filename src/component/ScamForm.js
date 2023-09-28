@@ -4,7 +4,7 @@ import axios from "axios";
 import AutocompleteInput from "./AutocompleteInput";
 import OpeningPage from "./OpeningPage";
 
-const ContactForm = ({ user }) => {
+const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   const location = useLocation();
@@ -24,7 +24,6 @@ const ContactForm = ({ user }) => {
         const selectedDatetime = `${e.target.date.value}T${e.target.time.value}:00`;
 
         const formData = {
-          fraudType: e.target.fraud_type.value,
           comments: [
             {
               text: e.target.comments.value,
@@ -34,7 +33,11 @@ const ContactForm = ({ user }) => {
           dateTime: selectedDatetime,
           position: { lat, lng },
           userId: user.userId,
-          scamTypeId: "65142125e2a40efa93086532",
+          scamTypeId: e.target.fraud_type.value,
+          isThereRating: {
+            all: 1,
+            confirmed: 1,
+          },
         };
         console.log("formData", formData);
         const response = await axios.post(
@@ -42,6 +45,7 @@ const ContactForm = ({ user }) => {
           formData
         );
         console.log("Response from the server:", response.data);
+        setMarkers([...markers, response.data.newScam]);
       } else {
         console.error("Invalid place object");
       }
@@ -64,14 +68,8 @@ const ContactForm = ({ user }) => {
             </label>
             <select id="fraud_type" name="fraud_type" className="form-input">
               <option selected>Select one...</option>
-              <option value="Pickpocketing">Pickpocketing</option>
-              <option value="Advance Fee Fraud">Advance Fee Fraud</option>
-              <option value="Door-to-Door Scam">Door-to-Door Scam</option>
-              <option value="Fake Charity Scam">Fake Charity Scam</option>
-              <option value="Street Performer Scam">
-                I want to fly with you to see cool cities
-              </option>
-              <option value="other">Other</option>
+              {scamTypes &&
+                scamTypes.map((t) => <option value={t._id}>{t.name}</option>)}
             </select>
             <AutocompleteInput
               onSelectPlace={setSelectedPlace}
