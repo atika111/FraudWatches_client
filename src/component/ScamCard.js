@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { formatDistanceToNow } from "date-fns";
 import { getAddressFromCoordinates } from "../utils/getCountry";
-
-const dateOptions = {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  timeZoneName: "short",
-};
 
 const Card = ({ scamTypes, markers, setMarkers }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const marker = location.state?.marker;
-  const date = new Date(marker.dateTime);
+
+  const formattedDatetime = formatDistanceToNow(new Date(marker.dateTime), {
+    addSuffix: true,
+  });
+
   const scamType = scamTypes.find((type) => (type._id = marker.scamTypeId));
   const advice = scamType.advice;
   const scamTypeName = scamType.name;
@@ -72,13 +67,16 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
     }
   };
 
+  console.log(marker.comments);
+
   return (
     <div className="card">
       <h2 className="card-title">{scamTypeName}</h2>
       <div className="card-info">
         <p>Location: {position}</p>
         <p>
-          Time of Committing: {date.toLocaleDateString("en-US", dateOptions)}
+          {/* Time of Committing: {date.toLocaleDateString("en-US", dateOptions)} */}
+          Time of Committing: {formattedDatetime}
         </p>
         <p>Advice: {advice}</p>
       </div>
@@ -94,7 +92,10 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
       <ul>
         {marker.comments.map((c) => (
           <li>
-            {c.text} - {c.userId}
+            Comment:{c.text} - User:{c.userId} -{" "}
+            {formatDistanceToNow(new Date(c.date), {
+              addSuffix: true,
+            })}
           </li>
         ))}
       </ul>
