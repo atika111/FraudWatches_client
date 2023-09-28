@@ -33,6 +33,7 @@ const AutocompleteInput = ({ onSelectPlace, initialCoords }) => {
 
   return (
     <Autocomplete
+    
       onLoad={(autocomplete) => {
         autocomplete.addListener("place_changed", () => {
           const selectedPlace = autocomplete.getPlace();
