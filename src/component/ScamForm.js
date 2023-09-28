@@ -97,11 +97,9 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
             </label>
             <input type="time" id="time" name="time" className="form-input" />
 
-            <button>click on me!</button>
+            <button className="subButton">click on me!</button>
 
-            <button disabled className="subButton" type="submit" value="Send">
-              <strong>Submit</strong>
-            </button>
+
           </fieldset>
         </form>
       </section>
