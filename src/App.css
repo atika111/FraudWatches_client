@@ -191,6 +191,36 @@
   margin-top: 80px;
 }
 
+
+.emergency-numbers-list {
+  list-style: none;
+  /* Remove bullets/dots */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  /* Adjust spacing as needed */
+}
+
+.emergency-numbers-list li {
+  margin: 0;
+  /* Remove default list item margin */
+}
+
+.comments-list {
+  list-style: none;
+  /* Remove bullets/dots */
+}
+
+.comments-list div {
+  font-size: 90%;
+  /* Reduce font size slightly */
+}
+
+.comments-list li {
+  margin: 0;
+  /* Remove default list item margin */
+}
+
 .select_class {
   height: 50px;
 }
@@ -199,4 +229,15 @@
   width: 100%;
   height: 100vh;
   background: #fff
+}
+
+.card-info,
+.emergency-numbers-list,
+.comments-list {
+  text-align: left;
+}
+
+.card-buttons {
+  text-align: center;
+  /* If you want the buttons centered */
 }
