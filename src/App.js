@@ -124,7 +124,7 @@ const App = () => {
     <OpeningPage />
   ) : (
     <div className="App">
-      <NavBar />
+      <NavBar user={user} />
       {isLoaded ? (
         <>
           <Routes>
