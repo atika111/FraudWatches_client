@@ -26,7 +26,7 @@ const defaultCenter = {
 
 const libraries = ["places"];
 
-const colors = ["blue", "gold", "green", "magenta", "red"];
+const colors = ["blue", "gold", "orange", "magenta", "red"];
 const scamTypeColorMap = {};
 const assignColorToScamType = (scamTypeId) => {
   if (!scamTypeColorMap[scamTypeId]) {
@@ -163,7 +163,7 @@ const App = () => {
                 className="autocomplete"
                 isLoaded={isLoaded}
                 onSelect={onPlaceSelect}
-                style={{ fontFamily: 'ysabeau' }}
+                style={{ fontFamily: "ysabeau" }}
               />
               <button
                 className="toggle-button button-corner"
