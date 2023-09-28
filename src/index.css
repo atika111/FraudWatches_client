@@ -12,7 +12,6 @@ code {
     monospace;
 }
 
-
 /* ContactForm.css */
 .contact-form {
   font-family: "ysabeau", Arial, Helvetica, sans-serif;
@@ -30,32 +29,58 @@ code {
   /* Center content horizontally */
 }
 
-.scam_form {
-  height: 80%;
+/* Remove the .scam_form class as it's not used */
+
+/* Style for form container */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  /* Add some spacing between form elements */
 }
 
+/* Style for form legend */
+legend {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  /* Add spacing below the legend */
+}
+
+/* Style for labels */
+label {
+  font-weight: bold;
+}
+
+/* Style for input fields */
 .form-input {
   font-family: "ysabeau", Arial, Helvetica, sans-serif;
-  font-size: 1.3rem;
+  font-size: 1rem;
+  /* Adjusted font size for consistency */
   height: 35px;
-  width: 350px;
+  width: 100%;
+  /* Make inputs full width of their container */
+  max-width: 350px;
+  /* Set a maximum width for consistency */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  /* Add spacing below each input */
 }
 
-.form-input-textarea {
-  font-family: "ysabeau", Arial, Helvetica, sans-serif;
-  font-size: 1.3rem;
-  height: 200px;
-  width: 600px;
-}
-
+/* Style for submit button */
 .subButton {
-  margin: 2rem 0;
   background-color: #D5B4B4;
   color: black;
   border: none;
   font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 1.5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-right: 10px;
 }
 
 .subButton:hover {
@@ -69,6 +94,14 @@ code {
   cursor: not-allowed;
 }
 
+/* Style for the "Don't have an account?" link */
+.sign_link {
+  text-decoration: none;
+  color: #000;
+  font-size: 1rem;
+  margin-top: 1rem;
+  /* Add spacing above the link */
+}
 
 section {
   /* Set the height of the section to 80% of its parent's height */

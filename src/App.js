@@ -120,6 +120,7 @@ const App = () => {
             />{" "}
             <Route path="/signup" element={<SignUpForm />} />
             <Route path="/login" element={<LoginForm setUser={setUser} />} />
+
             <Route
               path="/scamform"
               element={<ContactForm user={user} scamTypes={scamTypes} />}

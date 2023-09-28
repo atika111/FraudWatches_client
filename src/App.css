@@ -154,17 +154,20 @@
 }
 
 /* Autocomplete */
-.autocomplete {
-  margin-top: 80px;
-  /* Adjust as needed */
+.autocomplete,
+.Autocomplete_root__Rb0fa {
+  width: 100%;
+  margin-top: 40px;
+  /* Add any additional margin as needed */
   z-index: 3000;
-  /* Lower z-index to position it below the navbar */
+  /* Higher z-index to position it at the bottom */
 }
 
 /* Map */
 .map {
   /* Add styles for the Map component here */
   z-index: 100;
+  height: calc(100% - 60px);
 }
 
 /* Button in the top left corner */
@@ -174,5 +177,5 @@
   left: 10px;
   z-index: 2000;
   /* Higher z-index to be on top */
-  margin-top: 40px;
+  margin-top: 80px;
 }
