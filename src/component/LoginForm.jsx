@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const LoginForm = ({ setUser }) => {
   const [formData, setFormData] = useState({
@@ -70,6 +71,8 @@ const LoginForm = ({ setUser }) => {
             <button className="subButton" type="submit" value="Log In">
               <strong>Log In</strong>
             </button>
+            <Link to="/signup" className="sign_link">Dont have user?</Link>
+
           </fieldset>
         </form>
       </section>

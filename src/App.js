@@ -1,6 +1,12 @@
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, Routes, Route, Link } from "react-router-dom";
+import {
+  useNavigate,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import Map, { MODES } from "./component/map";
 import axios from "axios";
 import { getLocation } from "./utils/geo";
@@ -22,6 +28,7 @@ const libraries = ["places"];
 
 const App = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [center, setCenter] = useState(defaultCenter);
   const [mode, setMode] = useState(MODES.MOVE);
@@ -102,26 +109,50 @@ const App = () => {
         <>
 
           <Routes>
-            <Route path="/report-scam" element={<ContactForm />} /> {/*  map with all the scams  */}
+            <Route
+              path="/report-scam"
+              element={
+                <ContactForm
+                  user={user}
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
+                  markers={markers}
+                />
+              }
+            />{" "}
             <Route path="/signup" element={<SignUpForm />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/scamform" element={<ContactForm />} />
-            <Route path="/scamcard" element={<Card />} />
+            <Route path="/login" element={<LoginForm setUser={setUser} />} />
+
+            <Route
+              path="/scamform"
+              element={<ContactForm user={user} scamTypes={scamTypes} />}
+            />
+            <Route
+              path="/scamcard"
+              element={
+                <Card
+                  scamTypes={scamTypes}
+                  setMarkers={setMarkers}
+                  markers={markers}
+                />
+              }
+            />
           </Routes>
 
-
-
-          <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
-          <button onClick={toggleMode}>
-            {mode === MODES.MOVE ? "Set markers" : "Move map"}
-          </button>
-          <button onClick={clearMarkers}>Clear</button>
-          <Map
-            center={center}
-            mode={mode}
-            markers={markers}
-            onMarkerAdd={onMarkerAdd}
-          />
+          {location.pathname === "/" && (
+            <>
+              <Autocomplete className="autocomplete" isLoaded={isLoaded} onSelect={onPlaceSelect} />
+              <button className="toggle-button button-corner" onClick={toggleMode}>
+                {mode === MODES.MOVE ? "Set markers" : "Move map"}
+              </button>
+              <Map className="map"
+                center={center}
+                mode={mode}
+                markers={markers}
+                onMarkerAdd={onMarkerAdd}
+              />
+            </>
+          )}
         </>
       ) : (
         <h2>Loading...</h2>

@@ -199,6 +199,7 @@ const SignUpForm = () => {
                         >
                             <strong>Sign Up</strong>
                         </button>
+
                     </fieldset>
                 </form>
             </section>
