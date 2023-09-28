@@ -113,12 +113,15 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
       </ul>
       <ul>
         {marker.comments.map((c) => (
-          <li>
-            Comment: {c.text} - User: {getUserNickname(c.userId)} -{" "}
-            {formatDistanceToNow(new Date(c.date), {
-              addSuffix: true,
-            })}
-          </li>
+          <>
+            <li>Comment: {c.text}</li>
+            <li>User: {getUserNickname(c.userId)}</li>
+            <li>
+              {formatDistanceToNow(new Date(c.date), {
+                addSuffix: true,
+              })}
+            </li>
+          </>
         ))}
       </ul>
       <div className="card-buttons">
