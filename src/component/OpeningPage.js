@@ -2,8 +2,8 @@ import React from 'react'
 
 const OpeningPage = () => {
     return (
-        <div>
-            <div>FraudWatches</div>
+        <div className='loading-page'>
+            <div className="company-name">FraudWatches</div>
             <div id="animation-wrapper">
                 <div id="animation">
 
@@ -24,7 +24,7 @@ const OpeningPage = () => {
                     </svg>
                 </div>
             </div>
-            <div>making your trip safer sines 27/09/23 9:30 am</div>
+            <div className="slogan">Making your trip safer since 27/09/23 at 9:30 AM</div>
         </div>
 
 
