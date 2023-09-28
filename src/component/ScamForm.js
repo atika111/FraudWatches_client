@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AutocompleteInput from "./AutocompleteInput";
 import OpeningPage from "./OpeningPage";
 
 const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
+
+  const navigate = useNavigate();
 
   const location = useLocation();
   const coords = location.state?.coords;
@@ -46,6 +48,7 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
         );
         console.log("Response from the server:", response.data);
         setMarkers([...markers, response.data.newScam]);
+        navigate("/");
       } else {
         console.error("Invalid place object");
       }
@@ -67,7 +70,11 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
               <label htmlFor="fraud_type" className="form-label">
                 <strong>Fraud Type:</strong>
               </label>
-              <select id="fraud_type" name="fraud_type" className="form-input select_class" >
+              <select
+                id="fraud_type"
+                name="fraud_type"
+                className="form-input select_class"
+              >
                 <option defaultValue>Select one...</option>
                 {scamTypes &&
                   scamTypes.map((t) => (
@@ -77,7 +84,8 @@ const ContactForm = ({ user, scamTypes, markers, setMarkers }) => {
                   ))}
               </select>
             </div>
-            <AutocompleteInput className="form-input"
+            <AutocompleteInput
+              className="form-input"
               onSelectPlace={setSelectedPlace}
               initialCoords={coords}
             />
