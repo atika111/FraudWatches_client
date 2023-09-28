@@ -50,12 +50,11 @@ const Card = ({ scamTypes, markers, setMarkers }) => {
           usersIds: marker.comments.map((c) => c.userId),
         }
       );
-      console.log(res);
       setUsersCommented(res.data);
     };
 
     fetchUsers();
-  });
+  }, [marker]);
 
   // Click event handler for the "Still There" button
   const handleStillThereClick = async () => {
