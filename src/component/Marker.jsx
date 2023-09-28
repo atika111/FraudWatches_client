@@ -1,14 +1,14 @@
 import { MarkerF } from "@react-google-maps/api";
 import blue from "../assets/blue.png";
 import gold from "../assets/gold.png";
-import green from "../assets/green.png";
+import orange from "../assets/orange.png";
 import magenta from "../assets/magenta.png";
 import red from "../assets/red.png";
 
 const markerImages = {
   blue: blue,
   gold: gold,
-  green: green,
+  orange: orange,
   magenta: magenta,
   red: red,
 };
