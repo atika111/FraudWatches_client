@@ -1,14 +1,14 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -72,7 +72,7 @@ label {
 
 /* Style for submit button */
 .subButton {
-  background-color: #C5E1A5;
+  background-color: #c5e1a5;
   color: black;
   border: none;
   font-size: 1rem;
@@ -81,7 +81,7 @@ label {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin-right: 10px;
-  font-family: 'Ysabeau';
+  font-family: "Ysabeau";
   font-weight: bold;
 }
 
@@ -91,7 +91,7 @@ label {
 }
 
 .subButton:disabled {
-  background-color: #E4D0D0;
+  background-color: #e4d0d0;
   color: white;
   cursor: not-allowed;
 }
@@ -110,7 +110,6 @@ section {
   height: 80%;
   /* Add other styles as needed */
 }
-
 
 /* Additional CSS for form groups */
 .form-group {
@@ -139,6 +138,8 @@ section {
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 1rem;
+  overflow: hidden;
+  resize: none;
 }
 
 /* Add any other necessary styling for your form groups */
